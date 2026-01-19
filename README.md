@@ -126,3 +126,94 @@ Databases solve problems like:
 - Used in large corporations
 
 ---
+
+## 6. ORMs and Query Builders
+
+### Why ORMs Exist
+- Reduce boilerplate SQL
+- Improve developer productivity
+- Type safety and abstractions
+
+### Popular ORMs
+
+#### Prisma
+- Schema-first
+- Type-safe
+- Excellent DX for TypeScript
+
+#### Drizzle
+- SQL-first ORM
+- Lightweight and predictable
+- Closer to raw SQL
+
+#### TypeORM
+- Decorator-based
+- Class-centric approach
+- Used heavily in NestJS ecosystem
+
+---
+
+## 7. Modern Cloud & Serverless Databases
+
+### Neon
+- Serverless PostgreSQL
+- Branching and autoscaling
+- Ideal for modern web apps
+
+### Supabase
+- PostgreSQL-based
+- Auth, storage, realtime
+- Firebase alternative
+
+### PlanetScale
+- MySQL-compatible
+- Vitess-powered
+- Strong scaling capabilities
+
+---
+
+## 8. NoSQL Databases
+
+### MongoDB
+- Document-based
+- JSON-like storage
+- Schema flexibility
+
+### MariaDB
+- MySQL fork
+- Open-source focused
+- High performance
+
+### Mongoose
+- ODM for MongoDB
+- Schema validation
+- Middleware support
+
+---
+
+## 9. Choosing the Right Database
+
+| Use Case | Recommended |
+|--------|------------|
+| Financial systems | PostgreSQL |
+| Mobile apps | SQLite |
+| Rapid prototyping | MongoDB |
+| Type-safe backend | Prisma + PostgreSQL |
+| Serverless apps | Neon / Supabase |
+
+There is no **best database** — only the **right database** for the problem.
+
+---
+
+## 10. Closing Notes
+
+Databases are not just tools — they are **design decisions**.
+
+Learning databases deeply:
+- Makes you a better backend engineer
+- Improves system design thinking
+- Prevents costly architectural mistakes
+
+This repository will continue to grow as my understanding deepens.
+
+Happy querying 🍽️
