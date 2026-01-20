@@ -3,7 +3,7 @@
 SQL did not arrive fully formed as a finished technology.  
 Instead, it emerged gradually from early efforts to make data storage **reliable, scalable, and independent of application logic**.
 
-
+---
 
 ### The Problem Before SQL (1960s)
 
@@ -15,7 +15,7 @@ In the early 1960s, most data was stored in **flat files**.
 
 These limitations made it clear that a better model for managing data was needed.
 
-
+---
 
 ### A Foundational Breakthrough (1970)
 
@@ -32,7 +32,7 @@ In this paper, Codd proposed:
 
 His relational model emphasized **mathematical principles** and **data independence**, forming the theoretical foundation of modern databases.
 
-
+---
 
 ### System R and the Birth of SQL (1970s)
 
@@ -52,7 +52,7 @@ Due to trademark issues, SEQUEL was later renamed **SQL**, though the pronunciat
 
 By the late 1970s, SQL had proven that relational databases were not only theoretical—but practical and efficient.
 
-
+---
 
 ### Standardization and Industry Adoption (1980s)
 
@@ -66,7 +66,7 @@ In the 1980s, SQL gained widespread industry adoption.
 Standardization ensured that core SQL concepts worked consistently across different database systems.  
 While vendors added their own extensions, the SQL standard provided a common and portable foundation.
 
-
+---
 
 ### Growth, Competition, and Maturity (1990s–2000s)
 
@@ -85,7 +85,7 @@ Despite the rise of object-oriented programming and later NoSQL databases, SQL r
 - Mature tooling  
 - Expressive querying capabilities  
 
-
+---
 
 ### SQL in the Modern Era
 
@@ -100,7 +100,7 @@ Modern relational databases support:
 
 Cloud-native and serverless databases, including PostgreSQL-based platforms, have further extended SQL’s relevance in distributed systems.
 
-
+---
 
 ### Enduring Impact
 
