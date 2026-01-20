@@ -1,3 +1,5 @@
+# SQL Essentials: A Must-Read Guide for Every Developer (All Examples from w3schools)
+
 ## All the examples here are from w3schools
 
 ### The CREATE DATABASE statement is used to create a new SQL database.
@@ -10,7 +12,8 @@ CREATE DATABASE databasename;
 CREATE DATABASE testDB;
 ```
 
-> Creates a new database. Only works if you have permission on the server. Once a database is created, you can check it in the list of databases with the following SQL command: SHOW DATABASES;
+* Creates a new database. Only works if you have permission on the server.
+* Once a database is created, you can check it in the list of databases with the following SQL command: `SHOW DATABASES;`
 
 ### The DROP DATABASE statement is used to drop an existing SQL database.
 
@@ -22,8 +25,10 @@ DROP DATABASE databasename;
 DROP DATABASE testDB;
 ```
 
-> Deletes the database and all its tables and data. Cannot drop a database you are connected to. Only works if you have permission on the server. Once a database is dropped, you can check it in the list of databases with the following SQL command: SHOW DATABASES;
-
+* Deletes the database and all its tables and data.
+* Cannot drop a database you are connected to.
+* Only works if you have permission on the server.
+* Once a database is dropped, you can check it in the list of databases with: `SHOW DATABASES;`
 
 ### The BACKUP DATABASE statement is used in SQL Server to create a full backup of an existing SQL database.
 
@@ -37,10 +42,11 @@ BACKUP DATABASE testDB
 TO DISK = 'D:\backups\testDB.bak';
 ```
 
-> Creates a full backup of the database. It's recommended to back up the database to a different drive than the actual database. Then, if you get a disk crash, you will not lose your backup file along with the database.
+* Creates a full backup of the database.
+* Recommended to back up the database to a different drive than the actual database.
+* Prevents losing both the database and backup in case of a disk crash.
 
-
-### The following SQL statement creates a differential backup of the database "testDB":
+### Differential Backup
 
 ```sql
 -- Example
@@ -49,9 +55,8 @@ TO DISK = 'D:\backups\testDB.bak'
 WITH DIFFERENTIAL;
 ```
 
-> Backs up only the changes since the last full backup, reducing backup time.
-
-
+* Backs up only the changes since the last full backup.
+* Reduces backup time.
 
 ### The CREATE TABLE statement is used to create a new table in a database.
 
@@ -74,8 +79,10 @@ CREATE TABLE Persons (
 );
 ```
 
-> The column parameters specify the names of the columns of the table. The datatype parameter specifies the type of data the column can hold (e.g., VARCHAR, INTEGER, DATE, etc.). This defines columns, data types, and optional constraints such as PRIMARY KEY, NOT NULL, UNIQUE, or DEFAULT.
-
+* Column parameters specify the names of the columns.
+* Datatype parameter specifies the type of data the column can hold (e.g., VARCHAR, INTEGER, DATE, etc.).
+* Optional constraints: PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT.
+* Can include **composite primary keys** or **foreign key references**.
 
 ### The DROP TABLE statement is used to drop an existing table in a database.
 
@@ -87,7 +94,7 @@ DROP TABLE table_name;
 DROP TABLE Shippers;
 ```
 
-> Deletes the table and all its data permanently.
+* Deletes the table and all its data permanently.
 
 ### The TRUNCATE TABLE statement is used to delete the data inside a table, but not the table itself.
 
@@ -99,11 +106,15 @@ TRUNCATE TABLE table_name;
 TRUNCATE TABLE Shippers;
 ```
 
-> Quickly deletes all records; cannot be rolled back in some databases.
+* Quickly deletes all records.
+* Cannot be rolled back in some databases.
 
 ### The ALTER TABLE statement is used to modify an existing table.
 
-> Can add, modify, or drop columns, add constraints, rename tables, and more.
+* Add a column: `ALTER TABLE table_name ADD column_name datatype;`
+* Drop a column: `ALTER TABLE table_name DROP COLUMN column_name;`
+* Modify a column: `ALTER TABLE table_name MODIFY column_name new_datatype;`
+* Add constraints, rename tables, and more.
 
 ### CONSTRAINTS
 
@@ -116,28 +127,36 @@ TRUNCATE TABLE Shippers;
 
 ### INDEX
 
-> Used to speed up queries by allowing faster searches on columns.
+* Used to speed up queries by allowing faster searches on columns.
+* Can be UNIQUE or regular.
+* Example: `CREATE INDEX idx_name ON table_name(column_name);`
 
 ### AUTO INCREMENT / SERIAL
 
-> Automatically generates unique numbers for new rows.
+* Automatically generates unique numbers for new rows.
+* MySQL: `AUTO_INCREMENT`, PostgreSQL: `SERIAL` or `BIGSERIAL`.
 
 ### VIEWS
 
-> Virtual tables based on query results; useful for reusable complex queries.
+* Virtual tables based on query results.
+* Useful for reusable complex queries.
+* Some views are read-only.
 
 ### DATA TYPES
 
-> INT, BIGINT, FLOAT, DECIMAL, CHAR, VARCHAR, TEXT, DATE, TIME, TIMESTAMP, BOOLEAN, etc.
+* INT, BIGINT, FLOAT, DECIMAL, CHAR, VARCHAR, TEXT, DATE, TIME, TIMESTAMP, BOOLEAN, etc.
 
 ### DATES
 
-> Handling and formatting dates, using functions like CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP.
+* Handling and formatting dates.
+* Functions: `CURRENT_DATE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`.
 
 ### SQL INJECTION
 
-> Security vulnerability where attackers manipulate queries. Use parameterized queries to prevent.
+* Security vulnerability where attackers manipulate queries.
+* Use parameterized queries to prevent.
+* Example (safe): `cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))`
 
 ### HOSTING / CONNECTION
 
-> Databases can be local (PostgreSQL/MySQL) or cloud-hosted (Supabase, Neon, AWS RDS).
+* Databases can be local (PostgreSQL/MySQL) or cloud-hosted (Supabase, Neon, AWS RDS).
