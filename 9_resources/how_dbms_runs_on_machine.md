@@ -196,13 +196,6 @@ SELECT 1 + 1;
 
 
 
-**Next Steps for Practice:**
-
-* Install PostgreSQL locally or on DBeaver
-* Create a sample table `users(id, name, age)`
-* Try queries like `SELECT`, `INSERT`, `UPDATE`, `DELETE`
-* Observe how queries are executed via `EXPLAIN` in PostgreSQL
-
 ---
 
 
