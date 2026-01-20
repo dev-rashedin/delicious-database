@@ -1,6 +1,9 @@
-# SQL Essentials: A Must-Read Guide for Every Developer (All Examples from w3schools)
+# SQL Database Essentials: A Must-Read Guide for Every Developer (Part 3)
 
-## All the examples here are from w3schools
+## Focused on SQL Database Management (All Examples from w3schools)
+
+This article covers the core concepts of SQL database creation, modification, backup, and table management. It is a practical reference for developers to understand database structure, constraints, and administration using SQL commands. Whether you're a newbie, seasoned, or expert developer, this guide can help you strengthen your understanding of SQL database fundamentals and improve your practical skills. You can use it as a learning tool if you're a beginner, or as a quick reference to refresh and reinforce your SQL knowledge.
+
 
 ### The CREATE DATABASE statement is used to create a new SQL database.
 
@@ -109,12 +112,55 @@ TRUNCATE TABLE Shippers;
 * Quickly deletes all records.
 * Cannot be rolled back in some databases.
 
+
+
 ### The ALTER TABLE statement is used to modify an existing table.
 
-* Add a column: `ALTER TABLE table_name ADD column_name datatype;`
-* Drop a column: `ALTER TABLE table_name DROP COLUMN column_name;`
-* Modify a column: `ALTER TABLE table_name MODIFY column_name new_datatype;`
-* Add constraints, rename tables, and more.
+* Add a column: 
+```sql
+-- Syntax
+ALTER TABLE table_name
+ADD column_name datatype;
+
+-- Example
+ALTER TABLE Customers
+ADD Email varchar(255);
+```
+
+* Drop a column: 
+```sql
+-- Syntax
+ALTER TABLE table_name 
+DROP COLUMN column_name;
+
+-- Example
+ALTER TABLE Customers
+DROP COLUMN Email;
+```
+
+* Rename a column:
+```sql
+-- Syntax
+ALTER TABLE table_name
+RENAME COLUMN old_name to new_name;
+
+-- Example
+ALTER TABLE Customers
+RENAME COLUMN Customer_number to customer_id;
+```
+
+* Alter/Modify datatype
+```sql
+-- Syntax
+ALTER TABLE table_name
+ALTER COLUMN column_name datatype;
+
+-- Example
+ALTER TABLE table_name
+MODIFY COLUMN customer_id INT;
+```
+
+
 
 ### CONSTRAINTS
 
