@@ -102,4 +102,108 @@ QUERY
 * The DBMS sends the rows back to the client (DBeaver, psql, Node.js)
 
 
+## 5. How DBMS Communicates with CPU, RAM, and Disk
+
+### 5.1 RAM (Shared Buffers)
+
+* DBMS keeps frequently accessed data in RAM.
+* Reduces slow disk reads.
+* Example: `users` table pages may be cached.
+
+### 5.2 Disk (Storage)
+
+* Tables, indexes, and **Write-Ahead Log (WAL)** are stored on SSD/HDD.
+* WAL ensures durability: before updating a table, DBMS logs changes first.
+
+### 5.3 CPU
+
+* CPU executes **compiled DBMS code** (C binaries).
+* All logical operations (filtering, joining, aggregating) happen in CPU registers.
+
+
+
+## 6. Internal Representation (From SQL to Binary)
+
+1. SQL is **high-level** (human-readable)
+2. DBMS converts SQL → **execution plan** (tree of operations)
+3. Executor calls **C functions** → CPU instructions
+4. CPU executes instructions → reads/writes bytes from/to RAM/disk
+
+**Practical tiny example:**
+
+```sql
+SELECT 1 + 1;
+```
+
+* SQL: `SELECT 1 + 1;` → human-readable
+* DBMS executor calls CPU to add numbers
+* CPU sees machine code (binary), e.g., `10101000` for ADD instruction
+* CPU computes result → returns 2 to DBMS → returned to client
+
+> SQL itself is **never binary**; DBMS converts it into CPU instructions that operate on memory and disk.
+
+
+
+## 7. Transactions and Concurrency
+
+* PostgreSQL uses **MVCC (Multi-Version Concurrency Control)**:
+
+  * Each transaction sees a consistent snapshot
+  * Readers don’t block writers
+  * Writers don’t block readers
+* Ensures **ACID properties**:
+
+  * **Atomicity**: all or nothing
+  * **Consistency**: DB moves from one valid state to another
+  * **Isolation**: concurrent transactions don’t interfere
+  * **Durability**: committed data persists on disk
+
+
+
+## 8. Visual Diagram (Data Flow)
+
+```
+[ Client App (Node.js / psql / DBeaver) ]
+                 |
+                 v
+           [ PostgreSQL Server ]
+                 |
+  ----------------|----------------
+  |               |                |
+ [CPU]           [RAM]           [Disk]
+ (Executes      (Caches         (Stores tables,
+ instructions)  frequently       indexes, WAL)
+                accessed pages)
+```
+
+**Flow Example:**
+
+1. Client sends SQL query
+2. PostgreSQL parses query → execution plan
+3. Executor reads/writes RAM + Disk using CPU instructions
+4. Result sent back to client
+
+
+
+## 9. Key Takeaways
+
+* SQL = human-readable instructions
+* DBMS = program that **interprets SQL** and manipulates data on CPU, RAM, Disk
+* Node.js/JavaScript = application logic, does not store data persistently
+* PostgreSQL is written in **C**, very efficient and portable
+* DBMS internally uses **parsing, planning, execution** to convert SQL → CPU instructions → read/write RAM/Disk
+* MVCC + WAL ensures safe concurrent and durable operations
+
+
+
+**Next Steps for Practice:**
+
+* Install PostgreSQL locally or on DBeaver
+* Create a sample table `users(id, name, age)`
+* Try queries like `SELECT`, `INSERT`, `UPDATE`, `DELETE`
+* Observe how queries are executed via `EXPLAIN` in PostgreSQL
+
+---
+
+
 
