@@ -10,7 +10,7 @@ CREATE DATABASE databasename;
 CREATE DATABASE testDB;
 ```
 
-> Creates a new database. Only works if you have permission on the server.
+> Creates a new database. Only works if you have permission on the server. Once a database is created, you can check it in the list of databases with the following SQL command: SHOW DATABASES;
 
 ### The DROP DATABASE statement is used to drop an existing SQL database.
 
@@ -22,7 +22,8 @@ DROP DATABASE databasename;
 DROP DATABASE testDB;
 ```
 
-> Deletes the database and all its tables and data. Cannot drop a database you are connected to.
+> Deletes the database and all its tables and data. Cannot drop a database you are connected to. Only works if you have permission on the server. Once a database is dropped, you can check it in the list of databases with the following SQL command: SHOW DATABASES;
+
 
 ### The BACKUP DATABASE statement is used in SQL Server to create a full backup of an existing SQL database.
 
@@ -36,7 +37,8 @@ BACKUP DATABASE testDB
 TO DISK = 'D:\backups\testDB.bak';
 ```
 
-> Creates a full backup of the database.
+> Creates a full backup of the database. It's recommended to back up the database to a different drive than the actual database. Then, if you get a disk crash, you will not lose your backup file along with the database.
+
 
 ### The following SQL statement creates a differential backup of the database "testDB":
 
@@ -48,6 +50,8 @@ WITH DIFFERENTIAL;
 ```
 
 > Backs up only the changes since the last full backup, reducing backup time.
+
+
 
 ### The CREATE TABLE statement is used to create a new table in a database.
 
@@ -70,7 +74,8 @@ CREATE TABLE Persons (
 );
 ```
 
-> Defines columns, data types, and optional constraints (PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT).
+> The column parameters specify the names of the columns of the table. The datatype parameter specifies the type of data the column can hold (e.g., VARCHAR, INTEGER, DATE, etc.). This defines columns, data types, and optional constraints such as PRIMARY KEY, NOT NULL, UNIQUE, or DEFAULT.
+
 
 ### The DROP TABLE statement is used to drop an existing table in a database.
 
