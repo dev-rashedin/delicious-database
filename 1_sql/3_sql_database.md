@@ -7,9 +7,10 @@
 CREATE DATABASE databasename;
 
 -- Example
-CREATE DATABASE testDB
+CREATE DATABASE testDB;
 ```
 
+> Creates a new database. Only works if you have permission on the server.
 
 ### The DROP DATABASE statement is used to drop an existing SQL database.
 
@@ -18,11 +19,12 @@ CREATE DATABASE testDB
 DROP DATABASE databasename;
 
 -- Example
-DROP DATABASE testDB
+DROP DATABASE testDB;
 ```
 
+> Deletes the database and all its tables and data. Cannot drop a database you are connected to.
 
-### The BACKUP DATABASE statement is used in SQL Server to create a full back up of an existing SQL database. 
+### The BACKUP DATABASE statement is used in SQL Server to create a full backup of an existing SQL database.
 
 ```sql
 -- Syntax
@@ -34,7 +36,9 @@ BACKUP DATABASE testDB
 TO DISK = 'D:\backups\testDB.bak';
 ```
 
-### The following SQL statement creates a differential back up of the database "testDB": 
+> Creates a full backup of the database.
+
+### The following SQL statement creates a differential backup of the database "testDB":
 
 ```sql
 -- Example
@@ -43,7 +47,7 @@ TO DISK = 'D:\backups\testDB.bak'
 WITH DIFFERENTIAL;
 ```
 
->  A differential back up reduces the back up time (since only the changes are backed up
+> Backs up only the changes since the last full backup, reducing backup time.
 
 ### The CREATE TABLE statement is used to create a new table in a database.
 
@@ -53,19 +57,20 @@ CREATE TABLE table_name (
     column1 datatype,
     column2 datatype,
     column3 datatype,
-   ....
+    ....
 );
 
 -- Example
 CREATE TABLE Persons (
-    PersonID int,
-    LastName varchar(255),
+    PersonID int PRIMARY KEY,
+    LastName varchar(255) NOT NULL,
     FirstName varchar(255),
     Address varchar(255),
     City varchar(255)
 );
 ```
 
+> Defines columns, data types, and optional constraints (PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT).
 
 ### The DROP TABLE statement is used to drop an existing table in a database.
 
@@ -77,6 +82,8 @@ DROP TABLE table_name;
 DROP TABLE Shippers;
 ```
 
+> Deletes the table and all its data permanently.
+
 ### The TRUNCATE TABLE statement is used to delete the data inside a table, but not the table itself.
 
 ```sql
@@ -86,3 +93,46 @@ TRUNCATE TABLE table_name;
 -- Example
 TRUNCATE TABLE Shippers;
 ```
+
+> Quickly deletes all records; cannot be rolled back in some databases.
+
+### The ALTER TABLE statement is used to modify an existing table.
+
+> Can add, modify, or drop columns, add constraints, rename tables, and more.
+
+### CONSTRAINTS
+
+* **NOT NULL**: Ensures a column cannot be NULL.
+* **UNIQUE**: All values in a column must be unique.
+* **PRIMARY KEY**: Uniquely identifies each row.
+* **FOREIGN KEY**: Maintains referential integrity.
+* **CHECK**: Enforces a condition on column values.
+* **DEFAULT**: Provides a default value if none is specified.
+
+### INDEX
+
+> Used to speed up queries by allowing faster searches on columns.
+
+### AUTO INCREMENT / SERIAL
+
+> Automatically generates unique numbers for new rows.
+
+### VIEWS
+
+> Virtual tables based on query results; useful for reusable complex queries.
+
+### DATA TYPES
+
+> INT, BIGINT, FLOAT, DECIMAL, CHAR, VARCHAR, TEXT, DATE, TIME, TIMESTAMP, BOOLEAN, etc.
+
+### DATES
+
+> Handling and formatting dates, using functions like CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP.
+
+### SQL INJECTION
+
+> Security vulnerability where attackers manipulate queries. Use parameterized queries to prevent.
+
+### HOSTING / CONNECTION
+
+> Databases can be local (PostgreSQL/MySQL) or cloud-hosted (Supabase, Neon, AWS RDS).
