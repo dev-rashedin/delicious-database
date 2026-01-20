@@ -114,9 +114,12 @@ TRUNCATE TABLE Shippers;
 
 
 
-### The ALTER TABLE statement is used to modify an existing table.
+### The ALTER TABLE Statement: Modifying Existing Tables
 
-* Add a column: 
+The `ALTER TABLE` statement allows you to modify the structure of an existing table without deleting it. Common operations include adding, dropping, renaming, or altering columns.
+
+* **Add a column**
+
 ```sql
 -- Syntax
 ALTER TABLE table_name
@@ -127,7 +130,8 @@ ALTER TABLE Customers
 ADD Email varchar(255);
 ```
 
-* Drop a column: 
+* **Drop a column**
+
 ```sql
 -- Syntax
 ALTER TABLE table_name 
@@ -138,27 +142,46 @@ ALTER TABLE Customers
 DROP COLUMN Email;
 ```
 
-* Rename a column:
+* **Rename a column**
+
 ```sql
 -- Syntax
 ALTER TABLE table_name
-RENAME COLUMN old_name to new_name;
+RENAME COLUMN old_name TO new_name;
 
 -- Example
 ALTER TABLE Customers
-RENAME COLUMN Customer_number to customer_id;
+RENAME COLUMN Customer_number TO customer_id;
 ```
 
-* Alter/Modify datatype
-```sql
--- Syntax
-ALTER TABLE table_name
-ALTER COLUMN column_name datatype;
+* **Modify a column's datatype**
 
--- Example
+```sql
+-- Syntax (PostgreSQL)
 ALTER TABLE table_name
+ALTER COLUMN column_name TYPE new_datatype;
+
+-- Syntax (MySQL)
+ALTER TABLE table_name
+MODIFY COLUMN column_name new_datatype;
+
+-- Example (PostgreSQL)
+ALTER TABLE Customers
+ALTER COLUMN customer_id TYPE INT;
+
+-- Example (MySQL)
+ALTER TABLE Customers
 MODIFY COLUMN customer_id INT;
 ```
+
+* **Tips & Best Practices**
+
+  * Always **back up the table** before making structural changes.
+  * Ensure **data compatibility** when modifying a column's datatype; incompatible data may cause errors.
+  * Check for **constraints, indexes, or foreign keys** that may be affected by dropping or renaming columns.
+  * Consider **performance impact**: altering large tables may take time and should ideally be done during low-traffic periods.
+
+
 
 
 
