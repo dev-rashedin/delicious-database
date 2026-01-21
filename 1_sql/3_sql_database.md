@@ -81,22 +81,6 @@ WITH DIFFERENTIAL;
 
 ### Database Backup commands for other major relational database management systems -
 
-* **SQL Server**
-
-```sql
--- Syntax
-BACKUP DATABASE databasename
-TO DISK = 'filepath';
-
--- Example
-BACKUP DATABASE testDB
-TO DISK = 'D:\backups\testDB.bak';
-```
-
-* Creates a full backup of the database
-* Requires server permissions
-* SQL Server–specific
-
 - **PostgreSQL**
 
 ```bash
@@ -198,11 +182,10 @@ TRUNCATE TABLE Shippers;
 
 ## Modify a Database
 
-### The ALTER TABLE Statement: Modifying Existing Tables
 
 The `ALTER TABLE` statement allows you to modify the structure of an existing table without deleting it. Common operations include adding, dropping, renaming, or altering columns.
 
-* **Add a column**
+### **Add a column**
 
 ```sql
 -- Syntax
@@ -214,7 +197,7 @@ ALTER TABLE Customers
 ADD Email varchar(255);
 ```
 
-* **Drop a column**
+### **Drop a column**
 
 ```sql
 -- Syntax
@@ -226,7 +209,7 @@ ALTER TABLE Customers
 DROP COLUMN Email;
 ```
 
-* **Rename a column**
+### **Rename a column**
 
 ```sql
 -- Syntax
@@ -238,7 +221,7 @@ ALTER TABLE Customers
 RENAME COLUMN Customer_number TO customer_id;
 ```
 
-* **Modify a column's datatype**
+### **Modify a column's datatype**
 
 ```sql
 -- Syntax (PostgreSQL)
@@ -267,9 +250,7 @@ MODIFY COLUMN customer_id INT;
 
 
 
-
-
-### CONSTRAINTS
+## CONSTRAINTS
 
 * **NOT NULL**: Ensures a column cannot be NULL.
 * **UNIQUE**: All values in a column must be unique.
