@@ -16,7 +16,11 @@ CREATE DATABASE testDB;
 ```
 
 * Creates a new database. Only works if you have permission on the server.
-* Once a database is created, you can check it in the list of databases with the following SQL command: `SHOW DATABASES;`
+* Once a database is created, you can verify it using:
+  - **MySQL / MariaDB**: `SHOW DATABASES;`
+  - **PostgreSQL**: `\l` (psql) or `SELECT datname FROM pg_database;`
+  - **SQL Server**: `SELECT name FROM sys.databases;`
+  - **Oracle**: `SELECT name FROM v$database;`
 
 ### The DROP DATABASE statement is used to drop an existing SQL database.
 
@@ -31,7 +35,12 @@ DROP DATABASE testDB;
 * Deletes the database and all its tables and data.
 * Cannot drop a database you are connected to.
 * Only works if you have permission on the server.
-* Once a database is dropped, you can check it in the list of databases with: `SHOW DATABASES;`
+* Once a database is dropped, you can verify it using:
+  - **MySQL / MariaDB**: `SHOW DATABASES;`
+  - **PostgreSQL**: `\l` (psql) or `SELECT datname FROM pg_database;`
+  - **SQL Server**: `SELECT name FROM sys.databases;`
+  - **Oracle**: `SELECT name FROM v$database;`
+  
 
 ### The BACKUP DATABASE statement is used in SQL Server to create a full backup of an existing SQL database.
 
