@@ -5,7 +5,7 @@
 This article covers the core concepts of SQL database creation, modification, backup, and table management. It is a practical reference for developers to understand database structure, constraints, and administration using SQL commands. Whether you're a newbie, seasoned, or expert developer, this guide can help you strengthen your understanding of SQL database fundamentals and improve your practical skills. You can use it as a learning tool if you're a beginner, or as a quick reference to refresh and reinforce your SQL knowledge.
 
 
-## Create a Database
+## Create Database
 
 ### The CREATE DATABASE statement is used to create a new SQL database.
 
@@ -25,7 +25,7 @@ CREATE DATABASE testDB;
   - **Oracle**: `SELECT name FROM v$database;`
 
 
-## Drop a Database
+## Drop  Database
 
 ### The DROP DATABASE statement is used to drop an existing SQL database.
 
@@ -48,7 +48,7 @@ DROP DATABASE testDB;
 
 
 
-## Backup a Database
+## Backup  Database
 
 ### The BACKUP DATABASE statement is used in SQL Server to create a full backup of an existing SQL database.
 
@@ -124,7 +124,7 @@ RMAN> BACKUP DATABASE;
 
 
 
-## Create Table in Database (Multi-RDBMS)
+## Create Table in Database
 
 > Most commands in this section are standard SQL and conceptually work across major RDBMSs, but syntax may vary slightly.
 
@@ -163,7 +163,7 @@ CREATE TABLE Persons (
 
 * Can include composite primary keys or foreign key references.
 
-## Drop a Table from Database
+## Drop Table from Database
 
 ### DROP TABLE
 
@@ -190,7 +190,7 @@ TRUNCATE TABLE table_name;
 * Rollback behavior varies: PostgreSQL and SQL Server can rollback inside a transaction; MySQL may not (depending on storage engine); Oracle supports rollback.
 * Some DBMSs fire triggers on `TRUNCATE`, some do not.
 
-## Modify a Database
+## Modify Database
 
 The `ALTER TABLE` statement allows you to modify the structure of an existing table without deleting it. Common operations include adding, dropping, renaming, or altering columns.
 
@@ -214,20 +214,74 @@ DROP COLUMN column_name;
 
 ### Rename a column
 
-**Syntax per RDBMS:**
+```sql
+-- PostgreSQL / Oracle
+ALTER TABLE table_name RENAME COLUMN old_name TO new_name;
+-- Example
+ALTER TABLE Customers RENAME COLUMN customerId TO customer_id;
 
-* PostgreSQL / Oracle: `ALTER TABLE table_name RENAME COLUMN old_name TO new_name;`
-* MySQL: `ALTER TABLE table_name CHANGE old_name new_name datatype;`
-* SQL Server: `EXEC sp_rename 'table_name.old_name', 'new_name', 'COLUMN';`
+-- MySQL / MariaDB
+ALTER TABLE table_name CHANGE old_name new_name datatype [constraints];
+-- Example
+ALTER TABLE Customers CHANGE customerId customer_id INT NOT NULL;
+
+-- SQL Server
+EXEC sp_rename 'table_name.old_name', 'new_name', 'COLUMN';
+-- Example
+EXEC sp_rename 'Customers.customerId', 'customer_id', 'COLUMN';
+```
+
+**Notes per RDBMS:**
+
+* PostgreSQL/Oracle: data type not needed.
+
+* MySQL: must include current data type and any constraints.
+
+* SQL Server: check dependent objects (views, triggers, stored procedures) after renaming.
 
 ### Modify a column's datatype
 
-**Syntax per RDBMS:**
+```sql
+-- PostgreSQL
+ALTER TABLE table_name
+ALTER COLUMN column_name TYPE new_datatype;
+-- Example
+ALTER TABLE Customers
+ALTER COLUMN customerId TYPE INT;
 
-* PostgreSQL: `ALTER TABLE table_name ALTER COLUMN column_name TYPE new_datatype;`
-* MySQL: `ALTER TABLE table_name MODIFY COLUMN column_name new_datatype;`
-* SQL Server: `ALTER TABLE table_name ALTER COLUMN column_name new_datatype;`
-* Oracle: `ALTER TABLE table_name MODIFY column_name new_datatype;`
+-- MySQL / MariaDB
+ALTER TABLE table_name
+MODIFY COLUMN column_name new_datatype [constraints];
+-- Example
+ALTER TABLE Customers
+MODIFY COLUMN customerId INT NOT NULL;
+
+-- SQL Server
+ALTER TABLE table_name
+ALTER COLUMN column_name new_datatype;
+-- Example
+ALTER TABLE Customers
+ALTER COLUMN customerId INT;
+
+-- Oracle
+ALTER TABLE table_name
+MODIFY column_name new_datatype;
+-- Example
+ALTER TABLE Customers
+MODIFY customerId NUMBER(10);
+```
+
+**Notes per RDBMS:**
+
+* MySQL requires current constraints to be repeated.
+
+* SQL Server may fail if the column contains incompatible data.
+
+* Oracle syntax uses NUMBER, VARCHAR2, etc., instead of standard types.
+
+* Always back up the table before altering a column’s datatype.
+
+
 
 ### Tips & Best Practices
 
