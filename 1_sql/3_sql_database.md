@@ -5,6 +5,8 @@
 This article covers the core concepts of SQL database creation, modification, backup, and table management. It is a practical reference for developers to understand database structure, constraints, and administration using SQL commands. Whether you're a newbie, seasoned, or expert developer, this guide can help you strengthen your understanding of SQL database fundamentals and improve your practical skills. You can use it as a learning tool if you're a beginner, or as a quick reference to refresh and reinforce your SQL knowledge.
 
 
+## Create a Database
+
 ### The CREATE DATABASE statement is used to create a new SQL database.
 
 ```sql
@@ -21,6 +23,9 @@ CREATE DATABASE testDB;
   - **PostgreSQL**: `\l` (psql) or `SELECT datname FROM pg_database;`
   - **SQL Server**: `SELECT name FROM sys.databases;`
   - **Oracle**: `SELECT name FROM v$database;`
+
+
+## Drop a Database
 
 ### The DROP DATABASE statement is used to drop an existing SQL database.
 
@@ -40,7 +45,7 @@ DROP DATABASE testDB;
   - **PostgreSQL**: `\l` (psql) or `SELECT datname FROM pg_database;`
   - **SQL Server**: `SELECT name FROM sys.databases;`
   - **Oracle**: `SELECT name FROM v$database;`
-  
+
 
 ### The BACKUP DATABASE statement is used in SQL Server to create a full backup of an existing SQL database.
 
@@ -70,6 +75,71 @@ WITH DIFFERENTIAL;
 * Backs up only the changes since the last full backup.
 * Reduces backup time.
 
+
+## Backup a Database
+
+### Database Backup commands for other major relational database management systems -
+
+* **SQL Server**
+
+```sql
+-- Syntax
+BACKUP DATABASE databasename
+TO DISK = 'filepath';
+
+-- Example
+BACKUP DATABASE testDB
+TO DISK = 'D:\backups\testDB.bak';
+```
+
+* Creates a full backup of the database
+* Requires server permissions
+* SQL Server–specific
+
+- **PostgreSQL**
+
+```bash
+# Logical backup\pg_dump -U username -d dbname > backup.sql
+```
+
+Restore:
+
+```bash
+psql -U username -d dbname < backup.sql
+```
+
+* Uses command-line tool `pg_dump`
+* SQL command `BACKUP DATABASE` is not supported
+
+- **MySQL / MariaDB**
+
+```bash
+mysqldump -u username -p databasename > backup.sql
+```
+
+Restore:
+
+```bash
+mysql -u username -p databasename < backup.sql
+```
+
+* Uses `mysqldump` command
+* Produces a logical SQL dump
+
+- **Oracle Database**
+
+```bash
+RMAN> BACKUP DATABASE;
+```
+
+* Uses Recovery Manager (RMAN) tool
+* Supports full, incremental, and archived log backups
+
+**Note:** Always choose the backup method recommended for your specific RDBMS. SQL Server supports backup via SQL command, while PostgreSQL, MySQL, and Oracle require external tools.
+
+
+## Create Table in Database
+
 ### The CREATE TABLE statement is used to create a new table in a database.
 
 ```sql
@@ -95,6 +165,9 @@ CREATE TABLE Persons (
 * Datatype parameter specifies the type of data the column can hold (e.g., VARCHAR, INTEGER, DATE, etc.).
 * Optional constraints: PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT.
 * Can include **composite primary keys** or **foreign key references**.
+
+
+## Drop a Table from Database
 
 ### The DROP TABLE statement is used to drop an existing table in a database.
 
@@ -122,6 +195,7 @@ TRUNCATE TABLE Shippers;
 * Cannot be rolled back in some databases.
 
 
+## Modify a Database
 
 ### The ALTER TABLE Statement: Modifying Existing Tables
 
