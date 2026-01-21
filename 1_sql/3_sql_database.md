@@ -123,12 +123,15 @@ RMAN> BACKUP DATABASE;
 **Note:** Always choose the backup method recommended for your specific RDBMS. SQL Server supports backup via SQL command, while PostgreSQL, MySQL, and Oracle require external tools.
 
 
-## Create Table in Database
+
+## Create Table in Database (Multi-RDBMS)
+
+> Most commands in this section are standard SQL and conceptually work across major RDBMSs, but syntax may vary slightly.
 
 ### The CREATE TABLE statement is used to create a new table in a database.
 
 ```sql
--- Syntax
+-- Standard Syntax
 CREATE TABLE table_name (
     column1 datatype,
     column2 datatype,
@@ -136,117 +139,102 @@ CREATE TABLE table_name (
     ....
 );
 
--- Example
+-- Example (Generic)
 CREATE TABLE Persons (
-    PersonID int PRIMARY KEY,
-    LastName varchar(255) NOT NULL,
-    FirstName varchar(255),
-    Address varchar(255),
-    City varchar(255)
+    PersonID INT PRIMARY KEY,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Address VARCHAR(255),
+    City VARCHAR(255)
 );
 ```
 
-* Column parameters specify the names of the columns.
-* Datatype parameter specifies the type of data the column can hold (e.g., VARCHAR, INTEGER, DATE, etc.).
-* Optional constraints: PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT.
-* Can include **composite primary keys** or **foreign key references**.
+**Notes per RDBMS:**
 
+* **MySQL / MariaDB / PostgreSQL / SQL Server:** works as above; for auto-increment, use `AUTO_INCREMENT` (MySQL/SQL Server) or `SERIAL` (PostgreSQL).
+
+* **Oracle:** use `VARCHAR2` instead of `VARCHAR`, `NUMBER` instead of `INT`, `GENERATED AS IDENTITY` for auto-increment.
+
+* Column parameters specify the names of the columns.
+
+* Datatype parameter specifies the type of data the column can hold.
+
+* Optional constraints: PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT.
+
+* Can include composite primary keys or foreign key references.
 
 ## Drop a Table from Database
 
-### The DROP TABLE statement is used to drop an existing table in a database.
+### DROP TABLE
 
 ```sql
--- Syntax
+-- Standard Syntax
 DROP TABLE table_name;
-
--- Example
-DROP TABLE Shippers;
 ```
 
+**Notes per RDBMS:**
+
+* Most RDBMSs support this. Add `IF EXISTS` in MySQL/PostgreSQL/SQL Server to avoid errors if table does not exist.
 * Deletes the table and all its data permanently.
 
-### The TRUNCATE TABLE statement is used to delete the data inside a table, but not the table itself.
+### TRUNCATE TABLE
 
 ```sql
--- Syntax
+-- Standard Syntax
 TRUNCATE TABLE table_name;
-
--- Example
-TRUNCATE TABLE Shippers;
 ```
 
-* Quickly deletes all records.
-* Cannot be rolled back in some databases.
+**Notes per RDBMS:**
 
+* Quickly deletes all records.
+* Rollback behavior varies: PostgreSQL and SQL Server can rollback inside a transaction; MySQL may not (depending on storage engine); Oracle supports rollback.
+* Some DBMSs fire triggers on `TRUNCATE`, some do not.
 
 ## Modify a Database
 
-
 The `ALTER TABLE` statement allows you to modify the structure of an existing table without deleting it. Common operations include adding, dropping, renaming, or altering columns.
 
-### **Add a column**
+### Add a column
 
 ```sql
--- Syntax
 ALTER TABLE table_name
 ADD column_name datatype;
-
--- Example
-ALTER TABLE Customers
-ADD Email varchar(255);
 ```
 
-### **Drop a column**
+* Works across all major RDBMSs with standard syntax.
+
+### Drop a column
 
 ```sql
--- Syntax
-ALTER TABLE table_name 
+ALTER TABLE table_name
 DROP COLUMN column_name;
-
--- Example
-ALTER TABLE Customers
-DROP COLUMN Email;
 ```
 
-### **Rename a column**
+* Works in most RDBMSs; some may require additional options.
 
-```sql
--- Syntax
-ALTER TABLE table_name
-RENAME COLUMN old_name TO new_name;
+### Rename a column
 
--- Example
-ALTER TABLE Customers
-RENAME COLUMN Customer_number TO customer_id;
-```
+**Syntax per RDBMS:**
 
-### **Modify a column's datatype**
+* PostgreSQL / Oracle: `ALTER TABLE table_name RENAME COLUMN old_name TO new_name;`
+* MySQL: `ALTER TABLE table_name CHANGE old_name new_name datatype;`
+* SQL Server: `EXEC sp_rename 'table_name.old_name', 'new_name', 'COLUMN';`
 
-```sql
--- Syntax (PostgreSQL)
-ALTER TABLE table_name
-ALTER COLUMN column_name TYPE new_datatype;
+### Modify a column's datatype
 
--- Syntax (MySQL)
-ALTER TABLE table_name
-MODIFY COLUMN column_name new_datatype;
+**Syntax per RDBMS:**
 
--- Example (PostgreSQL)
-ALTER TABLE Customers
-ALTER COLUMN customer_id TYPE INT;
+* PostgreSQL: `ALTER TABLE table_name ALTER COLUMN column_name TYPE new_datatype;`
+* MySQL: `ALTER TABLE table_name MODIFY COLUMN column_name new_datatype;`
+* SQL Server: `ALTER TABLE table_name ALTER COLUMN column_name new_datatype;`
+* Oracle: `ALTER TABLE table_name MODIFY column_name new_datatype;`
 
--- Example (MySQL)
-ALTER TABLE Customers
-MODIFY COLUMN customer_id INT;
-```
+### Tips & Best Practices
 
-* **Tips & Best Practices**
-
-  * Always **back up the table** before making structural changes.
-  * Ensure **data compatibility** when modifying a column's datatype; incompatible data may cause errors.
-  * Check for **constraints, indexes, or foreign keys** that may be affected by dropping or renaming columns.
-  * Consider **performance impact**: altering large tables may take time and should ideally be done during low-traffic periods.
+* Always **back up the table** before making structural changes.
+* Ensure **data compatibility** when modifying a column's datatype.
+* Check for **constraints, indexes, or foreign keys** that may be affected by dropping or renaming columns.
+* Consider **performance impact**: altering large tables may take time and should ideally be done during low-traffic periods.
 
 
 
