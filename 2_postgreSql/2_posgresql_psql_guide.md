@@ -197,4 +197,142 @@ DELETE FROM users WHERE id = 1;
 
 ---
 
+## Transaction Control
 
+### Start a transaction
+
+```sql
+BEGIN;
+```
+
+---
+
+### Commit changes
+
+```sql
+COMMIT;
+```
+
+---
+
+### Rollback changes
+
+```sql
+ROLLBACK;
+```
+
+---
+
+## Indexes
+
+### List indexes
+
+```sql
+\di
+```
+
+---
+
+### Create an index
+
+```sql
+CREATE INDEX idx_users_email ON users(email);
+```
+
+---
+
+## Extensions
+
+### List installed extensions
+
+```sql
+\dx
+```
+
+---
+
+### Install an extension
+
+```sql
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+```
+
+---
+
+## File & Script Execution
+
+### Run a SQL file
+
+```sql
+\i path/to/file.sql
+```
+
+* Executes all SQL commands in the file
+
+---
+
+## Output & Formatting
+
+### Toggle expanded display
+
+```sql
+\x
+```
+
+* Useful for wide tables
+
+---
+
+### Change output format
+
+```sql
+\pset format aligned
+\pset format csv
+```
+
+---
+
+## Help & Documentation
+
+### psql command help
+
+```sql
+\?
+```
+
+---
+
+### SQL command help
+
+```sql
+\h SELECT
+```
+
+---
+
+## Exit psql
+
+```sql
+\q
+```
+
+---
+
+## Best Practices When Using psql
+
+* Use `\d` commands to explore schema before writing queries
+* Prefer transactions (`BEGIN`) for destructive operations
+* Avoid running `DROP` or `TRUNCATE` without double-checking
+* Use SQL files (`\i`) for repeatable scripts
+
+---
+
+## Final Notes
+
+`psql` is one of the most powerful ways to interact with PostgreSQL. Mastering it gives you **deep insight into database internals**, improves debugging skills, and makes you faster and more confident as a backend developer.
+
+This guide can be used as:
+
+* A **learning resource** for PostgreSQL beginners
+* A **daily reference** for working developers
+* A **revision tool** for interviews and production work
