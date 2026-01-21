@@ -47,6 +47,9 @@ DROP DATABASE testDB;
   - **Oracle**: `SELECT name FROM v$database;`
 
 
+
+## Backup a Database
+
 ### The BACKUP DATABASE statement is used in SQL Server to create a full backup of an existing SQL database.
 
 ```sql
@@ -75,8 +78,6 @@ WITH DIFFERENTIAL;
 * Backs up only the changes since the last full backup.
 * Reduces backup time.
 
-
-## Backup a Database
 
 ### Database Backup commands for other major relational database management systems -
 
