@@ -24,77 +24,91 @@ When a constraint is violated, the database **rejects the operation**, ensuring 
 
 
 ## SQL NOT NULL Constraint
-By default, a column can hold NULL values.
 
-The NOT NULL constraint enforces a column to NOT accept NULL values.
+By default, a column can accept `NULL` values.  
+The `NOT NULL` constraint enforces that a column **must always have a value**.
 
-This enforces a field to always contain a value, which means that you cannot insert a new record, or update a record without adding a value to this field.
+This means you cannot insert a new row or update an existing row without providing a value for a `NOT NULL` column.
+
+### NOT NULL with CREATE TABLE
 
 ```sql
--- SQL NOT NULL on CREATE TABLE
 CREATE TABLE Persons (
-    ID int NOT NULL,
-    LastName varchar(255) NOT NULL,
-    FirstName varchar(255) NOT NULL,
-    Age int
+    ID INT NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255) NOT NULL,
+    Age INT
 );
-
--- SQL NOT NULL on ALTER TABLE
-
--- SQL Server / MS Access:
-ALTER TABLE Persons
-ALTER COLUMN Age int NOT NULL;
-My SQL / Oracle (prior version 10G):
-
--- My SQL / Oracle (prior version 10G):
-ALTER TABLE Persons
-MODIFY COLUMN Age int NOT NULL;
-Oracle 10G and later:
-
--- Oracle 10G and later:
-ALTER TABLE Persons
-MODIFY Age int NOT NULL;
 ```
 
-## SQL UNIQUE Constraint
-The UNIQUE constraint ensures that all values in a column are different.
-
-Both the UNIQUE and PRIMARY KEY constraints provide a guarantee for uniqueness for a column or set of columns.
-
-A PRIMARY KEY constraint automatically has a UNIQUE constraint.
-
-However, you can have many UNIQUE constraints per table, but only one PRIMARY KEY constraint per table.
+### NOT NULL with ALTER TABLE
 
 ```sql
--- SQL UNIQUE on CREATE TABLE
-
--- SQL Server / Oracle / MS Access:
-CREATE TABLE Persons (
-    ID int NOT NULL UNIQUE,
-    LastName varchar(255) NOT NULL,
-    FirstName varchar(255),
-    Age int
-);
+-- SQL Server / MS Access
+ALTER TABLE Persons
+ALTER COLUMN Age INT NOT NULL;
 
 -- MySQL
+ALTER TABLE Persons
+MODIFY COLUMN Age INT NOT NULL;
+
+-- Oracle (10g and later)
+ALTER TABLE Persons
+MODIFY Age INT NOT NULL;
+```
+
+* Ensures mandatory fields always contain data.
+* Commonly used for identifiers, names, and critical attributes.
+* Helps prevent incomplete or invalid records.
+
+## SQL UNIQUE Constraint
+
+The `UNIQUE` constraint ensures that **all values in a column (or combination of columns) are distinct**.
+
+Both `UNIQUE` and `PRIMARY KEY` enforce uniqueness:
+- A table can have **multiple UNIQUE constraints**
+- A table can have **only one PRIMARY KEY**
+- A `PRIMARY KEY` automatically includes a `UNIQUE` constraint
+
+### UNIQUE with CREATE TABLE (Single Column)
+
+```sql
+-- SQL Server / Oracle / MS Access
 CREATE TABLE Persons (
-    ID int NOT NULL,
-    LastName varchar(255) NOT NULL,
-    FirstName varchar(255),
-    Age int,
+    ID INT NOT NULL UNIQUE,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT
+);
+```
+
+```sql
+-- MySQL
+CREATE TABLE Persons (
+    ID INT NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT,
     UNIQUE (ID)
 );
-
-
--- MySQL / SQL Server / Oracle / MS Access:
-CREATE TABLE Persons (
-    ID int NOT NULL,
-    LastName varchar(255) NOT NULL,
-    FirstName varchar(255),
-    Age int,
-    CONSTRAINT UC_Person UNIQUE (ID,LastName)
-)
 ```
+
+### UNIQUE with CREATE TABLE (Multiple Columns)
+
+```sql
+CREATE TABLE Persons (
+    ID INT NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT,
+    CONSTRAINT UC_Person UNIQUE (ID, LastName)
+);
+```
+
+* Prevents duplicate values in critical columns.
+* Supports **composite uniqueness** across multiple columns.
+* Commonly used for emails, usernames, or business identifiers.
+
 
 ### INDEX
 
