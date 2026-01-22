@@ -239,39 +239,123 @@ DROP CONSTRAINT FK_PersonOrder;
 - Foreign keys maintain data integrity and prevent orphaned records.
 
 
+## SQL CHECK Constraint
 
-### INDEX
+The CHECK constraint limits the value range that can be placed in a column.  
+It ensures data validity according to your defined rules.
 
-* Used to speed up queries by allowing faster searches on columns.
-* Can be UNIQUE or regular.
-* Example: `CREATE INDEX idx_name ON table_name(column_name);`
+### CHECK with CREATE TABLE
 
-### AUTO INCREMENT / SERIAL
+```sql
+-- MySQL / PostgreSQL
+CREATE TABLE Persons (
+    ID INT NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT,
+    CHECK (Age >= 18)
+);
 
-* Automatically generates unique numbers for new rows.
-* MySQL: `AUTO_INCREMENT`, PostgreSQL: `SERIAL` or `BIGSERIAL`.
+-- SQL Server / Oracle / MS Access
+CREATE TABLE Persons (
+    ID INT NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT CHECK (Age >= 18)
+);
 
-### VIEWS
+-- Named or composite CHECK (MySQL / PostgreSQL / SQL Server / Oracle / MS Access)
+CREATE TABLE Persons (
+    ID INT NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT,
+    City VARCHAR(255),
+    CONSTRAINT CHK_Person CHECK (Age >= 18 AND City='Sandnes')
+);
+```
 
-* Virtual tables based on query results.
-* Useful for reusable complex queries.
-* Some views are read-only.
+### CHECK with ALTER TABLE
 
-### DATA TYPES
+```sql
+-- MySQL / PostgreSQL / SQL Server / Oracle / MS Access
+ALTER TABLE Persons
+ADD CHECK (Age >= 18);
 
-* INT, BIGINT, FLOAT, DECIMAL, CHAR, VARCHAR, TEXT, DATE, TIME, TIMESTAMP, BOOLEAN, etc.
+-- Named or composite CHECK
+ALTER TABLE Persons
+ADD CONSTRAINT CHK_PersonAge CHECK (Age >= 18 AND City='Sandnes');
+```
 
-### DATES
+### DROP CHECK Constraint
 
-* Handling and formatting dates.
-* Functions: `CURRENT_DATE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`.
+```sql
+-- MySQL
+ALTER TABLE Persons
+DROP CHECK CHK_PersonAge;
 
-### SQL INJECTION
+-- PostgreSQL / SQL Server / Oracle / MS Access
+ALTER TABLE Persons
+DROP CONSTRAINT CHK_PersonAge;
+```
 
-* Security vulnerability where attackers manipulate queries.
-* Use parameterized queries to prevent.
-* Example (safe): `cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))`
 
-### HOSTING / CONNECTION
+## SQL DEFAULT Constraint
 
-* Databases can be local (PostgreSQL/MySQL) or cloud-hosted (Supabase, Neon, AWS RDS).
+The DEFAULT constraint sets a default value for a column.  
+If no value is specified during insert, the default is applied automatically.
+
+### DEFAULT with CREATE TABLE
+
+```sql
+-- MySQL / PostgreSQL / SQL Server / Oracle / MS Access
+CREATE TABLE Persons (
+    ID INT NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT,
+    City VARCHAR(255) DEFAULT 'Sandnes'
+);
+
+-- System value example (MySQL / PostgreSQL / SQL Server / Oracle / MS Access)
+CREATE TABLE Orders (
+    ID INT NOT NULL,
+    OrderNumber INT NOT NULL,
+    OrderDate DATE DEFAULT CURRENT_DATE
+);
+```
+
+### DEFAULT with ALTER TABLE
+
+```sql
+-- MySQL / PostgreSQL
+ALTER TABLE Persons
+ALTER COLUMN City SET DEFAULT 'Sandnes';
+
+-- SQL Server
+ALTER TABLE Persons
+ADD CONSTRAINT df_City
+DEFAULT 'Sandnes' FOR City;
+
+-- Oracle
+ALTER TABLE Persons
+MODIFY City DEFAULT 'Sandnes';
+
+-- MS Access
+ALTER TABLE Persons
+ALTER COLUMN City SET DEFAULT 'Sandnes';
+```
+
+### DROP DEFAULT Constraint
+
+```sql
+-- MySQL / PostgreSQL
+ALTER TABLE Persons
+ALTER COLUMN City DROP DEFAULT;
+
+-- SQL Server / Oracle / MS Access
+ALTER TABLE Persons
+ALTER COLUMN City DROP DEFAULT;
+```
+
+
