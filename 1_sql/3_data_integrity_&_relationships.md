@@ -1,4 +1,4 @@
-## CONSTRAINTS
+## Constraints
 
 SQL constraints define rules that enforce **data integrity and consistency** within a database. They control what values can be stored in a table and prevent invalid data from being inserted, updated, or deleted.
 
@@ -21,6 +21,40 @@ When a constraint is violated, the database **rejects the operation**, ensuring 
 * **CHECK** — Enforces a condition that column values must satisfy.
 * **DEFAULT** — Assigns a default value when no value is provided.
 * **INDEX** — Improves query performance by speeding up data retrieval.
+
+
+## SQL NOT NULL Constraint
+By default, a column can hold NULL values.
+
+The NOT NULL constraint enforces a column to NOT accept NULL values.
+
+This enforces a field to always contain a value, which means that you cannot insert a new record, or update a record without adding a value to this field.
+
+```sql
+-- SQL NOT NULL on CREATE TABLE
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255) NOT NULL,
+    Age int
+);
+
+-- SQL NOT NULL on ALTER TABLE
+
+-- SQL Server / MS Access:
+ALTER TABLE Persons
+ALTER COLUMN Age int NOT NULL;
+My SQL / Oracle (prior version 10G):
+
+-- My SQL / Oracle (prior version 10G):
+ALTER TABLE Persons
+MODIFY COLUMN Age int NOT NULL;
+Oracle 10G and later:
+
+-- Oracle 10G and later:
+ALTER TABLE Persons
+MODIFY Age int NOT NULL;
+```
 
 ### INDEX
 
