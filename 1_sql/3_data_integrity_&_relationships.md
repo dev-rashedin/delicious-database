@@ -52,6 +52,10 @@ ALTER COLUMN Age INT NOT NULL;
 ALTER TABLE Persons
 MODIFY COLUMN Age INT NOT NULL;
 
+-- PostgreSQL
+ALTER TABLE Persons
+ALTER COLUMN Age SET NOT NULL;
+
 -- Oracle (10g and later)
 ALTER TABLE Persons
 MODIFY Age INT NOT NULL;
@@ -80,10 +84,8 @@ CREATE TABLE Persons (
     FirstName VARCHAR(255),
     Age INT
 );
-```
 
-```sql
--- MySQL
+-- MySQL // PostgreSQL
 CREATE TABLE Persons (
     ID INT NOT NULL,
     LastName VARCHAR(255) NOT NULL,
@@ -108,6 +110,134 @@ CREATE TABLE Persons (
 * Prevents duplicate values in critical columns.
 * Supports **composite uniqueness** across multiple columns.
 * Commonly used for emails, usernames, or business identifiers.
+
+
+
+## SQL PRIMARY KEY Constraint
+
+The PRIMARY KEY constraint uniquely identifies each record in a table.  
+Primary keys must contain **unique values** and **cannot be NULL**. Each table can have only **one primary key**. The primary key can be a single column or a combination of columns.
+
+### PRIMARY KEY with CREATE TABLE
+
+```sql
+-- MySQL / PostgreSQL (single column)
+CREATE TABLE Persons (
+    ID INT NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT,
+    PRIMARY KEY (ID)
+);
+
+-- SQL Server / Oracle / MS Access
+CREATE TABLE Persons (
+    ID INT NOT NULL PRIMARY KEY,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT
+);
+
+-- PRIMARY KEY on multiple columns (MySQL / PostgreSQL / SQL Server / Oracle / MS Access)
+CREATE TABLE Persons (
+    ID INT NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT,
+    CONSTRAINT PK_Person PRIMARY KEY (ID, LastName)
+);
+```
+
+### PRIMARY KEY with ALTER TABLE
+
+```sql
+-- Add single column primary key (MySQL / PostgreSQL / SQL Server / Oracle / MS Access)
+ALTER TABLE Persons
+ADD PRIMARY KEY (ID);
+
+-- Add composite primary key
+ALTER TABLE Persons
+ADD CONSTRAINT PK_Person PRIMARY KEY (ID, LastName);
+```
+
+*Note:* Columns must be defined as NOT NULL when adding primary key via ALTER TABLE.
+
+### DROP PRIMARY KEY Constraint
+
+```sql
+-- MySQL / PostgreSQL
+ALTER TABLE Persons
+DROP PRIMARY KEY;
+
+-- SQL Server / Oracle / MS Access
+ALTER TABLE Persons
+DROP CONSTRAINT PK_Person;
+```
+
+## SQL FOREIGN KEY Constraint
+
+The FOREIGN KEY constraint enforces **referential integrity** between tables.  
+A FOREIGN KEY in a child table references the PRIMARY KEY in a parent table, preventing invalid data entry.
+
+### FOREIGN KEY with CREATE TABLE
+
+```sql
+-- MySQL / PostgreSQL
+CREATE TABLE Orders (
+    OrderID INT NOT NULL,
+    OrderNumber INT NOT NULL,
+    PersonID INT,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+);
+
+-- SQL Server / Oracle / MS Access
+CREATE TABLE Orders (
+    OrderID INT NOT NULL PRIMARY KEY,
+    OrderNumber INT NOT NULL,
+    PersonID INT FOREIGN KEY REFERENCES Persons(PersonID)
+);
+
+-- Named or composite foreign key (MySQL / PostgreSQL / SQL Server / Oracle / MS Access)
+CREATE TABLE Orders (
+    OrderID INT NOT NULL,
+    OrderNumber INT NOT NULL,
+    PersonID INT,
+    PRIMARY KEY (OrderID),
+    CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+);
+```
+
+### FOREIGN KEY with ALTER TABLE
+
+```sql
+-- Add foreign key to existing table
+-- MySQL / PostgreSQL / SQL Server / Oracle / MS Access
+ALTER TABLE Orders
+ADD FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+
+-- Add named foreign key
+ALTER TABLE Orders
+ADD CONSTRAINT FK_PersonOrder
+FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+```
+
+### DROP FOREIGN KEY Constraint
+
+```sql
+-- MySQL / PostgreSQL
+ALTER TABLE Orders
+DROP FOREIGN KEY FK_PersonOrder;
+
+-- SQL Server / Oracle / MS Access
+ALTER TABLE Orders
+DROP CONSTRAINT FK_PersonOrder;
+```
+
+*Notes:*  
+- Always ensure referenced columns exist and are PRIMARY KEY or UNIQUE.  
+- Foreign keys maintain data integrity and prevent orphaned records.
+
 
 
 ### INDEX
