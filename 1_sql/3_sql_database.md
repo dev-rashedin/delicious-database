@@ -294,12 +294,27 @@ MODIFY customerId NUMBER(10);
 
 ## CONSTRAINTS
 
-* **NOT NULL**: Ensures a column cannot be NULL.
-* **UNIQUE**: All values in a column must be unique.
-* **PRIMARY KEY**: Uniquely identifies each row.
-* **FOREIGN KEY**: Maintains referential integrity.
-* **CHECK**: Enforces a condition on column values.
-* **DEFAULT**: Provides a default value if none is specified.
+SQL constraints define rules that enforce **data integrity and consistency** within a database. They control what values can be stored in a table and prevent invalid data from being inserted, updated, or deleted.
+
+Constraints can be defined:
+- **At table creation time** using the `CREATE TABLE` statement
+- **After table creation** using the `ALTER TABLE` statement
+
+Constraints may be applied at two levels:
+- **Column-level constraints**: Apply to a single column
+- **Table-level constraints**: Apply to the entire table and may involve multiple columns
+
+When a constraint is violated, the database **rejects the operation**, ensuring the accuracy and reliability of stored data.
+
+### Common SQL Constraints
+
+* **NOT NULL** — Prevents a column from storing `NULL` values.
+* **UNIQUE** — Ensures all values in a column (or set of columns) are distinct.
+* **PRIMARY KEY** — Uniquely identifies each row in a table.
+* **FOREIGN KEY** — Maintains referential integrity between related tables.
+* **CHECK** — Enforces a condition that column values must satisfy.
+* **DEFAULT** — Assigns a default value when no value is provided.
+* **INDEX** — Improves query performance by speeding up data retrieval.
 
 ### INDEX
 
