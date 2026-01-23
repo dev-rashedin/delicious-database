@@ -120,45 +120,35 @@ Views are commonly used for:
 
 ---
 
-## CREATE VIEW
+### CREATE VIEW
 
-### Syntax (RDBMS-agnostic)
 
 ```sql
+-- Syntax (RDBMS-agnostic)
 CREATE VIEW view_name AS
 SELECT column1, column2, ...
 FROM table_name
 WHERE condition;
-```
 
----
-
-### Example: Filtered View
-
-Create a view that shows only customers from Brazil.
-
-```sql
--- MySQL / PostgreSQL / SQLite
+-- Example
 CREATE VIEW brazil_customers AS
 SELECT customer_name, contact_name
 FROM customers
 WHERE country = 'Brazil';
-```
 
-Querying the view:
 
-```sql
+-- Querying the view
 SELECT * FROM brazil_customers;
 ```
 
 ---
 
-## View with Derived Logic (Real-World Example)
+
+### View with Derived Logic (Real-World Example)
 
 Create a view that lists products priced **above the average price**.
 
 ```sql
--- MySQL / PostgreSQL / SQLite
 CREATE VIEW products_above_avg_price AS
 SELECT product_name, price
 FROM products
@@ -174,23 +164,19 @@ This is useful when:
 
 ---
 
-## CREATE OR REPLACE VIEW
+### CREATE OR REPLACE VIEW
 
 Used to **update an existing view definition**.
 
-### Syntax
 
 ```sql
+-- Syntax
 CREATE OR REPLACE VIEW view_name AS
 SELECT column1, column2, ...
 FROM table_name
 WHERE condition;
-```
 
-### Example: Extend Existing View
-
-```sql
--- PostgreSQL / MySQL / SQLite
+-- Example: Extend Existing View
 CREATE OR REPLACE VIEW brazil_customers AS
 SELECT customer_name, contact_name, city
 FROM customers
@@ -199,18 +185,14 @@ WHERE country = 'Brazil';
 
 ---
 
-## DROP VIEW
+### DROP VIEW
 
-### Syntax
 
 ```sql
+-- Syntax
 DROP VIEW view_name;
-```
 
-### Example
-
-```sql
--- MySQL / PostgreSQL / SQLite
+-- Example
 DROP VIEW brazil_customers;
 ```
 
@@ -231,11 +213,6 @@ DROP VIEW brazil_customers;
 
 * INT, BIGINT, FLOAT, DECIMAL, CHAR, VARCHAR, TEXT, DATE, TIME, TIMESTAMP, BOOLEAN, etc.
 
-### DATES
-
-* Handling and formatting dates.
-* Functions: `CURRENT_DATE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`.
-
 ### SQL INJECTION
 
 * Security vulnerability where attackers manipulate queries.
@@ -248,6 +225,4 @@ DROP VIEW brazil_customers;
 
 
 ## Plan
-   - Indexes
-   - Identity / Serial / Auto-Increment
    - Query planning concepts

@@ -6,18 +6,18 @@
 
 ## Table of Contents
 
-1. Introduction
-2. A Brief History of Databases
-3. What Is a Database?
-4. Types of Databases
-   - SQL Databases
-   - NoSQL Databases
-5. SQL Databases in Detail
-6. ORMs and Query Builders
-7. Modern Cloud & Serverless Databases
-8. NoSQL Databases in Detail
-9. Choosing the Right Database
-10. Closing Notes
+1. [Introduction](#introduction)
+2. [A Brief History of Databases](#a-brief-history-of-databases)
+3. [What Is a Database?](#what-is-a-database)
+4. [Types of Databases](#types-of-databases)
+   - [SQL Databases](#sql-databases)
+   - [NoSQL Databases](#nosql-databases)
+5. [SQL Databases in Detail](#sql-databases-in-detail)
+6. [ORMs and Query Builders](#orms-and-query-builders)
+7. [Modern Cloud & Serverless Databases](#modern-cloud--serverless-databases)
+8. [NoSQL Databases in Detail](#nosql-databases-in-detail)
+9. [Choosing the Right Database](#choosing-the-right-database)
+10. [Closing Notes](#closing-notes)
 
 ---
 
