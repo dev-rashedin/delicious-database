@@ -170,5 +170,100 @@ Other injection vectors still apply.
 
 ---
 
+## The Only Correct Fix: Parameterized Queries
+
+SQL injection is **not** solved by:
+
+* Escaping strings manually
+* Removing keywords
+* Regex filtering
+* Input validation alone
+
+It is solved by **parameterized queries**.
+
+---
+
+## Parameterized Queries (PostgreSQL, MySQL, SQLite)
+
+### What Actually Happens
+
+* SQL structure is sent first
+* User values are sent separately
+* Database treats values strictly as data
+* SQL logic cannot be altered
+
+---
+
+### PostgreSQL (Node.js / `pg`)
+
+```js
+const result = await client.query(
+  'SELECT * FROM users WHERE id = $1',
+  [userId]
+);
+```
+
+* `$1` is a positional parameter
+* PostgreSQL enforces type safety
+* Injection is impossible
+
+---
+
+### MySQL (Node.js / `mysql2`)
+
+```js
+const [rows] = await connection.execute(
+  'SELECT * FROM users WHERE id = ?',
+  [userId]
+);
+```
+
+* `?` is a placeholder
+* Values are bound safely
+
+---
+
+### SQLite (Node.js / `better-sqlite3`)
+
+```js
+db.prepare(
+  'SELECT * FROM users WHERE id = ?'
+).get(userId);
+```
+
+* SQLite supports binding natively
+* Same protection guarantees
+
+---
+
+## Inserts Are Also Vulnerable (Not Just SELECT)
+
+### Unsafe Insert
+
+```sql
+INSERT INTO users (email) VALUES ('${email}');
+```
+
+### Safe Insert (Universal)
+
+```sql
+INSERT INTO users (email) VALUES (?);
+```
+
+Bound using parameters in:
+
+* PostgreSQL
+* MySQL
+* SQLite
+
+---
+
+## Key Takeaways (Part 1)
+
+* SQL injection is **database-agnostic**
+* PostgreSQL, MySQL, and SQLite are equally affected
+* String concatenation is the root cause
+* Parameterized queries are mandatory
+* Authentication logic is a primary target
 
 ---
