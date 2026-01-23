@@ -291,8 +291,4 @@ MODIFY customerId NUMBER(10);
 * Consider **performance impact**: altering large tables may take time and should ideally be done during low-traffic periods.
 
 
-
-
-
-
 ## SQL Data Types
