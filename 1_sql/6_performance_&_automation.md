@@ -97,11 +97,135 @@ CREATE TABLE Persons (
 * Starting value and increment step can be customized using sequences in PostgreSQL.
 
 
-### VIEWS
+## VIEWS
 
-* Virtual tables based on query results.
-* Useful for reusable complex queries.
-* Some views are read-only.
+Below is a **clean, article-ready SQL Views section**, aligned with your series style.
+It uses **RDBMS-agnostic syntax first**, and only mentions **PostgreSQL / MySQL / SQLite** when relevant.
+
+---
+
+## SQL Views
+
+### What is a View?
+
+A **view** is a virtual table based on the result of a `SELECT` query.
+It does **not store data**; it always returns **up-to-date results** from the underlying tables.
+
+Views are commonly used for:
+
+* Query abstraction
+* Reusability
+* Readability
+* Access control (limited exposure of data)
+
+---
+
+## CREATE VIEW
+
+### Syntax (RDBMS-agnostic)
+
+```sql
+CREATE VIEW view_name AS
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+```
+
+---
+
+### Example: Filtered View
+
+Create a view that shows only customers from Brazil.
+
+```sql
+-- MySQL / PostgreSQL / SQLite
+CREATE VIEW brazil_customers AS
+SELECT customer_name, contact_name
+FROM customers
+WHERE country = 'Brazil';
+```
+
+Querying the view:
+
+```sql
+SELECT * FROM brazil_customers;
+```
+
+---
+
+## View with Derived Logic (Real-World Example)
+
+Create a view that lists products priced **above the average price**.
+
+```sql
+-- MySQL / PostgreSQL / SQLite
+CREATE VIEW products_above_avg_price AS
+SELECT product_name, price
+FROM products
+WHERE price > (
+    SELECT AVG(price) FROM products
+);
+```
+
+This is useful when:
+
+* The logic is reused frequently
+* You want consistent business rules across queries
+
+---
+
+## CREATE OR REPLACE VIEW
+
+Used to **update an existing view definition**.
+
+### Syntax
+
+```sql
+CREATE OR REPLACE VIEW view_name AS
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+```
+
+### Example: Extend Existing View
+
+```sql
+-- PostgreSQL / MySQL / SQLite
+CREATE OR REPLACE VIEW brazil_customers AS
+SELECT customer_name, contact_name, city
+FROM customers
+WHERE country = 'Brazil';
+```
+
+---
+
+## DROP VIEW
+
+### Syntax
+
+```sql
+DROP VIEW view_name;
+```
+
+### Example
+
+```sql
+-- MySQL / PostgreSQL / SQLite
+DROP VIEW brazil_customers;
+```
+
+---
+
+### Practical Use Cases for Views
+
+* **Simplify complex joins**
+* **Centralize business logic**
+* **Expose limited data for reporting**
+* **Reduce duplication of query logic**
+* **Improve query readability in applications**
+
+> Views are best suited for **read-heavy workloads** and **stable query logic**.
+
 
 ### DATA TYPES
 
