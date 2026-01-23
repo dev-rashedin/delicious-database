@@ -190,7 +190,7 @@ TRUNCATE TABLE table_name;
 * Rollback behavior varies: PostgreSQL and SQL Server can rollback inside a transaction; MySQL may not (depending on storage engine); Oracle supports rollback.
 * Some DBMSs fire triggers on `TRUNCATE`, some do not.
 
-## Modify Database
+## Modify Table
 
 The `ALTER TABLE` statement allows you to modify the structure of an existing table without deleting it. Common operations include adding, dropping, renaming, or altering columns.
 

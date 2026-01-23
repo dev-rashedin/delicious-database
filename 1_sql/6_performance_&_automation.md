@@ -1,4 +1,3 @@
-
 ## SQL CREATE INDEX Statement
 
 Indexes improve query performance by allowing faster searches.  
@@ -40,10 +39,38 @@ DROP INDEX Persons.idx_lastname;
 DROP INDEX idx_lastname ON Persons;
 ```
 
-### AUTO INCREMENT / SERIAL
+## AUTO_INCREMENT / SERIAL Field
 
-* Automatically generates unique numbers for new rows.
-* MySQL: `AUTO_INCREMENT`, PostgreSQL: `SERIAL` or `BIGSERIAL`.
+Auto-increment fields allow a unique number to be generated automatically when a new record is inserted. Typically used for primary key columns.
+
+```sql
+--  MySQL Example
+CREATE TABLE Persons (
+    PersonID int NOT NULL AUTO_INCREMENT,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (PersonID)
+);
+ALTER TABLE Persons AUTO_INCREMENT = 100; -- set starting value
+INSERT INTO Persons (FirstName, LastName) VALUES ('Lars','Monsen');
+
+
+-- PostgreSQL Example
+CREATE TABLE Persons (
+    PersonID SERIAL PRIMARY KEY,
+    LastName VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(255),
+    Age INT
+);
+INSERT INTO Persons (FirstName, LastName) VALUES ('Lars','Monsen');
+```
+
+** Notes **
+* Auto-increment fields are often used as primary keys.
+* You do not need to provide a value for auto-increment columns when inserting.
+* Starting value and increment step can be customized using sequences in PostgreSQL.
+
 
 ### VIEWS
 
