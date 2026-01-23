@@ -292,3 +292,7 @@ MODIFY customerId NUMBER(10);
 
 
 
+
+
+
+## SQL Data Types

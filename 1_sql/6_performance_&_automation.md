@@ -96,3 +96,9 @@ INSERT INTO Persons (FirstName, LastName) VALUES ('Lars','Monsen');
 ### HOSTING / CONNECTION
 
 * Databases can be local (PostgreSQL/MySQL) or cloud-hosted (Supabase, Neon, AWS RDS).
+
+
+## Plan
+   - Indexes
+   - Identity / Serial / Auto-Increment
+   - Query planning concepts
