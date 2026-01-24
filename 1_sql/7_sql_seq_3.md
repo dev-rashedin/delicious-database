@@ -4,17 +4,17 @@ SQL security is crucial for any developer interacting with databases. Vulnerabil
 
 Understanding SQL security helps you:
 
-* Protect user data and sensitive information.
-* Prevent unauthorized access and data breaches.
-* Build robust, secure applications.
+- Protect user data and sensitive information.
+- Prevent unauthorized access and data breaches.
+- Build robust, secure applications.
 
 ## Table of Contents
 
-1. [Introduction: Why SQL Security Matters](#1-introduction-why-sql-security-matters)
-2. [How SQL Injection Works (Real-World Examples)](#2-how-sql-injection-works-real-world-examples)
-3. [Preventing SQL Injection (Practical Solutions)](#3-preventing-sql-injection-practical-solutions)
-4. [Database Permissions & Least Privilege](#4-database-permissions--least-privilege)
-5. [Takeaways & Security Checklist](#5-takeaways--security-checklist)
+1. [Introduction: Why SQL Security Matters](#1.introduction-why-sql-security-matters)  
+2. [How SQL Injection Works (Real-World Examples)](#2.how-sql-injection-works-real-world-examples)  
+3. [Preventing SQL Injection (Practical Solutions)](#3.preventing-sql-injection-practical-solutions)  
+4. [Database Permissions & Least Privilege](#4.database-permissions--least-privilege)  
+5. [Takeaways & Security Checklist](#5.takeaways--security-checklist)  
 
 ---
 
@@ -26,10 +26,10 @@ SQL security fundamentals exist because **a database will faithfully execute any
 
 A single mistake in how SQL queries are constructed can result in:
 
-* Unauthorized data exposure
-* Authentication bypass
-* Data corruption or deletion
-* Full system compromise
+- Unauthorized data exposure
+- Authentication bypass
+- Data corruption or deletion
+- Full system compromise
 
 SQL injection and related vulnerabilities have existed for decades, yet they remain among the **most exploited security flaws in real-world systems**. Understanding SQL security is therefore not optional for developers—it is a baseline competency.
 
@@ -43,9 +43,10 @@ This article focuses on **how SQL behaves**, **how attackers exploit unsafe usag
 
 It avoids framework-specific abstractions and instead explains:
 
-* What actually goes wrong
-* Why it goes wrong
-* How to prevent it correctly
+- What actually goes wrong
+- Why it goes wrong
+- How to prevent it correctly
+
 
 ## 2. How SQL Injection Works (Real-World Examples)
 
@@ -58,7 +59,7 @@ Consider a simple login query:
 ```sql
 SELECT * FROM Users
 WHERE username = 'user_input' AND password = 'pass_input';
-```
+````
 
 If an attacker enters:
 
@@ -122,11 +123,14 @@ This deletes critical data.
 * PostgreSQL, MySQL, and SQLite all execute injected statements if user input is not properly handled.
 * **Any query that concatenates user input directly into SQL is vulnerable.**
 
+
 ## 3. Preventing SQL Injection (What Actually Works)
 
 Preventing SQL injection is not about filtering input or blocking characters. It is about **how SQL queries are constructed and executed**.
 
 Below are the **only techniques that matter** in practice.
+
+---
 
 ### 3.1 Use Parameterized Queries (Non‑Negotiable)
 
@@ -159,6 +163,8 @@ Why this works:
 
 This single practice prevents **almost all SQL injection attacks**.
 
+---
+
 ### 3.2 Never Build SQL with String Concatenation
 
 String concatenation is the root cause of SQL injection.
@@ -172,9 +178,12 @@ If user input is:
 
 Then the query is vulnerable.
 
-**Rule:** If user input appears directly inside a SQL string, the code is unsafe.
+**Rule:**
+If user input appears directly inside a SQL string, the code is unsafe.
 
 No exceptions.
+
+---
 
 ### 3.3 Use Prepared Statements Everywhere
 
@@ -192,6 +201,8 @@ Benefits:
 
 Prepared statements are not an optimization detail — they are a **security boundary**.
 
+---
+
 ### 3.4 Validate Input, but Don’t Trust It
 
 Input validation is **defense in depth**, not a primary defense.
@@ -206,7 +217,10 @@ Bad assumption:
 
 * “Validation alone stops SQL injection”
 
-Validation can fail. Parameterized queries do not.
+Validation can fail.
+Parameterized queries do not.
+
+---
 
 ### 3.5 Avoid Dynamic SQL When Possible
 
@@ -229,6 +243,8 @@ Never allow users to control:
 * Column names
 * SQL operators
 
+---
+
 ### 3.6 Use Least‑Privilege Database Accounts
 
 Your application should **not** connect as an all‑powerful database user.
@@ -245,6 +261,8 @@ Why this matters:
 * Damage is limited if privileges are limited
 
 This turns a critical breach into a survivable incident.
+
+---
 
 ### 3.7 Errors Should Never Expose SQL Details
 
@@ -264,11 +282,15 @@ Example:
 * ❌ “Unknown column `password_hash` in table `users`”
 * ✅ “Invalid request”
 
+---
+
 ### Why This Is Enough
 
-If you follow **all seven rules above**, you eliminate **the vast majority of real-world SQL injection vulnerabilities**.
+If you follow **all seven rules above**, you eliminate **the vast majority of real‑world SQL injection vulnerabilities**.
 
 Everything else in SQL security builds on these foundations.
+
+---
 
 ## 4. Database Permissions & Least Privilege
 
@@ -329,6 +351,8 @@ SQLite has limited user-level permissions; enforce access via the application or
 
 Even if your queries are safe from injection, **overly permissive accounts** can let an attacker escalate damage. Permissions are your **second line of defense**.
 
+---
+
 ## 5. Takeaways & Security Checklist
 
 ### 5.1 Core Principles
@@ -353,3 +377,6 @@ Even if your queries are safe from injection, **overly permissive accounts** can
 ### 5.3 Final Note
 
 SQL security is **foundational**, not optional. Even a single injection vulnerability or overly permissive account can compromise your entire database. Implement these best practices consistently to protect your applications and users.
+
+---
+
