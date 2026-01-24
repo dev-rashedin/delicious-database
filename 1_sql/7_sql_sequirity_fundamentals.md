@@ -638,5 +638,182 @@ Confusing the two is one of the most common causes of SQL injection vulnerabilit
 
 ---
 
+# 4. Batched Statements and Multi‑Statement Attacks
 
+## What Are Batched SQL Statements?
+
+A batched (or multi‑statement) query is a single request that contains **more than one SQL statement**, separated by semicolons.
+
+Example:
+
+```sql
+SELECT * FROM users; DELETE FROM logs;
+```
+
+If the database engine allows multiple statements per execution, **every statement is executed in order**.
+
+---
+
+## Why Batched Statements Are Dangerous
+
+When user input is concatenated into SQL, an attacker can:
+
+* Terminate the original query
+* Append a second destructive command
+* Execute both in a single request
+
+This turns a read operation into a write or delete operation.
+
+---
+
+## Real‑World Attack Scenario
+
+### Intended Query
+
+```sql
+SELECT * FROM users WHERE id = 105;
+```
+
+### User Input
+
+```
+105; DROP TABLE users;
+```
+
+### Final Executed SQL
+
+```sql
+SELECT * FROM users WHERE id = 105; DROP TABLE users;
+```
+
+If multi‑statements are allowed:
+
+* The SELECT runs
+* The table is dropped
+* No error is required for the damage to occur
+
+---
+
+## Why This Still Happens Today
+
+Many applications:
+
+* Enable multi‑statements for convenience
+* Use legacy database drivers
+* Disable safeguards for performance or flexibility
+* Reuse raw SQL execution paths
+
+Even modern stacks are vulnerable if configuration is unsafe.
+
+---
+
+## Multi‑Statement Attacks Without Semicolons
+
+Not all databases require semicolons for exploitation.
+
+Attackers can use:
+
+* Subqueries
+* UNION clauses
+* Conditional expressions
+* Boolean logic
+
+Example:
+
+```sql
+SELECT * FROM users WHERE id = 105 OR EXISTS (
+  SELECT 1 FROM sensitive_table
+);
+```
+
+No second statement is needed.
+The logic of the query is altered.
+
+---
+
+## Parameterized Queries Stop This Entire Class of Attacks
+
+Parameterized queries do **not** parse input as SQL.
+
+Example:
+
+```sql
+SELECT * FROM users WHERE id = ?
+```
+
+Input:
+
+```
+105; DROP TABLE users;
+```
+
+The database receives:
+
+* SQL structure (fixed)
+* Value (literal)
+
+The input is treated as data, not executable code.
+
+The semicolon loses all meaning.
+
+---
+
+## Why Escaping Does Not Work
+
+Escaping attempts to neutralize dangerous characters.
+
+Problems:
+
+* Different encodings
+* Nested quotes
+* Database‑specific escape rules
+* Inconsistent driver behavior
+
+Escaping tries to **repair broken SQL**.
+
+Parameterized queries **never break SQL**.
+
+---
+
+## Multi‑Statement Configuration Is Not a Defense
+
+Disabling multi‑statements:
+
+* Reduces attack surface
+* Does not eliminate injection
+
+Attackers can still:
+
+* Alter WHERE logic
+* Bypass authentication
+* Extract unauthorized data
+
+Configuration is a mitigation, not a solution.
+
+---
+
+## The Real Security Boundary
+
+The only reliable boundary is:
+
+> SQL structure must be fixed at compile time
+> Data must be bound at execution time
+
+Anything else is a workaround.
+
+---
+
+## Key Principle
+
+If user input can change:
+
+* The number of statements
+* The logic of a statement
+* The intent of a statement
+
+Then the system is vulnerable.
+
+Parameterized queries prevent all three.
+
+---
 
