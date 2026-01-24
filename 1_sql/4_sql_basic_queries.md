@@ -98,9 +98,83 @@ This will return all rows, including repeated country names.
 By mastering `SELECT` and `SELECT DISTINCT`, you can **retrieve exactly the data you need**, avoid duplicates when necessary, and perform basic data analysis efficiently.
 
 
-- WHERE, AND / OR / NOT
 
-- ORDER BY
+## Filtering Data with `WHERE`
+
+The `WHERE` clause is used to **filter records** and retrieve only rows that meet a specified condition.
+
+```sql
+-- Syntax
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+
+-- Example: Filter by Text
+-- Select all customers from Mexico:
+SELECT *
+FROM Customers
+WHERE Country = 'Mexico';
+
+-- Example: Filter by Number
+-- Select the customer with CustomerID 1:
+SELECT *
+FROM Customers
+WHERE CustomerID = 1;
+
+-- Example: Using Comparison Operators
+-- Select all customers with CustomerID greater than 80:
+SELECT *
+FROM Customers
+WHERE CustomerID > 80;
+```
+
+**Common Operators for `WHERE`:**
+`=` , `>` , `<` , `>=` , `<=` , `<>` (or `!=`), `BETWEEN`, `LIKE`, `IN`
+
+---
+
+## Sorting Data with `ORDER BY`
+
+The `ORDER BY` clause sorts query results in **ascending (`ASC`)** or **descending (`DESC`)** order. By default, it sorts ascending.
+
+```sql
+-- Syntax
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1, column2, ... ASC|DESC;
+
+-- Example: Sort by Price Ascending
+SELECT *
+FROM Products
+ORDER BY Price;
+
+-- Example: Sort by Price Descending
+SELECT *
+FROM Products
+ORDER BY Price DESC;
+
+-- Example: Sort Alphabetically
+SELECT *
+FROM Products
+ORDER BY ProductName;
+
+-- Example: Sort Reverse Alphabetically
+SELECT *
+FROM Products
+ORDER BY ProductName DESC;
+
+-- Example: Sort by Multiple Columns
+-- Orders by Country, then by CustomerName within the same Country:
+SELECT *
+FROM Customers
+ORDER BY Country, CustomerName;
+
+-- Example: Mixed Ascending and Descending
+-- Country ascending, CustomerName descending:
+SELECT *
+FROM Customers
+ORDER BY Country ASC, CustomerName DESC;
+```
 
 - LIMIT / OFFSET
 
