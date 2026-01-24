@@ -152,7 +152,7 @@ SELECT *
 FROM Products
 ORDER BY Price DESC;
 
--- Example: Sort Alphabetically
+-- Example: Sort Alphabetically (By Default)
 SELECT *
 FROM Products
 ORDER BY ProductName;
@@ -180,6 +180,8 @@ ORDER BY Country ASC, CustomerName DESC;
 
 ### Logical Operators: `AND`, `OR`, `NOT`
 
+> The AND operator displays a record if all the conditions are TRUE.The OR operator displays a record if any of the conditions are TRUE.
+
 ```sql
 -- Syntax Examples
 
@@ -193,13 +195,31 @@ SELECT *
 FROM Customers
 WHERE Country = 'Mexico' OR Country = 'Germany';
 
--- NOT: Select customers NOT from Mexico
+-- Combining AND and OR : Select all Spanish customers that starts with either "G" or "R":
+SELECT * FROM Customers
+WHERE Country = 'Spain' AND (CustomerName LIKE 'G%' OR CustomerName LIKE 'R%');
+
+-- NOT: Select customers NOT from Mexico 
+-- (NOT gives opposite result)
 SELECT *
 FROM Customers
 WHERE NOT Country = 'Mexico';
+
+-- Select customers that does not start with the letter 'A':
+SELECT * FROM Customers
+WHERE CustomerName NOT LIKE 'A%';
+
+-- Select customers with a customerID not between 10 and 60:
+SELECT * FROM Customers
+WHERE CustomerID NOT BETWEEN 10 AND 60;
+
+-- Select customers with a CustomerId not greater than 50:
+SELECT * FROM Customers
+WHERE NOT CustomerID > 50;
 ```
 
 ### Handling NULL Values
+
 
 ```sql
 -- Syntax Examples
@@ -214,6 +234,8 @@ SELECT *
 FROM Customers
 WHERE PostalCode IS NOT NULL;
 ```
+
+> A NULL value is different from a zero value or a field that contains spaces. A field with a NULL value is one that has been left blank during record creation!
 
 ### Limiting Results: `LIMIT` and `OFFSET`
 
