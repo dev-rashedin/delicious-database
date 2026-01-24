@@ -294,3 +294,102 @@ Everything else in SQL security builds on these foundations.
 
 Next logical section:
 **Database Permissions & Least Privilege (Why the Database Must Protect Itself)**
+
+
+
+Here’s **Part 4** of your SQL Security Fundamentals article, focusing on **database permissions and least privilege**, keeping it concise and practical:
+
+---
+
+## 4. Database Permissions & Least Privilege
+
+### 4.1 Principle of Least Privilege
+
+Grant only the minimum permissions a user or application needs. Avoid giving `ADMIN` or `ROOT` rights to application accounts.
+
+**Example:**
+
+* Read-only accounts for reporting
+* Write-only accounts for logging
+* Separate accounts for migrations or maintenance
+
+### 4.2 Common SQL Permissions
+
+| Permission | Description           | Example Usage      |
+| ---------- | --------------------- | ------------------ |
+| `SELECT`   | Read data             | Reporting queries  |
+| `INSERT`   | Add data              | User signup tables |
+| `UPDATE`   | Modify data           | Profile editing    |
+| `DELETE`   | Remove data           | Data purging       |
+| `EXECUTE`  | Run stored procedures | Application logic  |
+
+### 4.3 User Roles and Grouping
+
+Use roles or groups to simplify permission management instead of assigning permissions to individual users.
+
+**PostgreSQL Example:**
+
+```sql
+-- Create role with read-only access
+CREATE ROLE reporting_user NOLOGIN;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO reporting_user;
+
+-- Assign role to a user
+GRANT reporting_user TO john;
+```
+
+**MySQL Example:**
+
+```sql
+-- Create read-only user
+CREATE USER 'reporting_user'@'localhost' IDENTIFIED BY 'securepass';
+GRANT SELECT ON mydb.* TO 'reporting_user'@'localhost';
+```
+
+**SQLite Example:**
+SQLite has limited user-level permissions; enforce access via the application or file-system level.
+
+### 4.4 Protect Administrative Accounts
+
+* Use strong passwords
+* Limit network access
+* Rotate credentials regularly
+* Avoid using superuser accounts in application code
+
+### 4.5 Why This Matters
+
+Even if your queries are safe from injection, **overly permissive accounts** can let an attacker escalate damage. Permissions are your **second line of defense**.
+
+---
+
+Here’s **Part 5** of your SQL Security Fundamentals article: the **Takeaways & Security Checklist**, concise and actionable.
+
+---
+
+## 5. Takeaways & Security Checklist
+
+### 5.1 Core Principles
+
+1. **Never trust user input.** Always assume input is malicious until validated or parameterized.
+2. **Use parameterized queries** or prepared statements to prevent SQL injection.
+3. **Apply least privilege.** Give each user or application account only the permissions it needs.
+4. **Separate concerns.** Keep administrative, application, and reporting accounts distinct.
+5. **Audit and monitor** database activity for suspicious access patterns.
+
+### 5.2 Practical Checklist
+
+* [ ] Validate all user inputs at both client and server sides.
+* [ ] Replace string concatenation in queries with parameters.
+* [ ] Review database roles and permissions; remove unnecessary rights.
+* [ ] Ensure sensitive accounts use strong, rotated passwords.
+* [ ] Avoid embedding superuser or admin credentials in application code.
+* [ ] Regularly back up the database; test restore procedures.
+* [ ] Monitor logs for unusual SELECT, INSERT, UPDATE, DELETE operations.
+* [ ] Educate developers on secure query construction and SQL behavior.
+
+### 5.3 Final Note
+
+SQL security is **foundational**, not optional. Even a single injection vulnerability or overly permissive account can compromise your entire database. Implement these best practices consistently to protect your applications and users.
+
+---
+
