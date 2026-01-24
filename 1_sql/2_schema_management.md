@@ -292,3 +292,90 @@ MODIFY customerId NUMBER(10);
 
 
 ## SQL Data Types
+
+Every column in a table must have a **data type**.
+A data type defines **what kind of values** a column can store and **how the database handles those values**.
+
+Choosing the correct data types is part of **schema design**, not querying.
+Good choices improve:
+
+* Data integrity
+* Storage efficiency
+* Query performance
+* Cross-database compatibility
+
+This section focuses **only on commonly used data types** in **PostgreSQL, MySQL, and SQLite**, following the **20/80 rule**:
+
+* 80% of real-world use cases
+* 20% of the total possible data types
+
+Rare, vendor-specific, or legacy types are intentionally excluded.
+
+---
+
+## Common SQL Data Types (RDBMS-Agnostic)
+
+These data types are **conceptually the same** across PostgreSQL, MySQL, and SQLite and are used in almost every application.
+
+| Data Type         | Description                       | Typical Use      |
+| ----------------- | --------------------------------- | ---------------- |
+| `INT` / `INTEGER` | Whole numbers                     | IDs, counters    |
+| `BIGINT`          | Large whole numbers               | High-volume IDs  |
+| `DECIMAL(p, s)`   | Exact numeric values              | Money, prices    |
+| `VARCHAR(n)`      | Variable-length string (limit)    | Names, emails    |
+| `TEXT`            | Variable-length string (no limit) | Descriptions     |
+| `DATE`            | Date only                         | Birthdays        |
+| `TIMESTAMP`       | Date and time                     | Logs, created_at |
+| `BOOLEAN`         | True / False                      | Status flags     |
+
+---
+
+## Data Types That Differ Across Databases
+
+These data types exist in all three databases, but **syntax, behavior, or enforcement differs**.
+
+### Auto-Increment / Identity Columns
+
+| Database   | Data Type / Syntax                             | Notes                             |
+| ---------- | ---------------------------------------------- | --------------------------------- |
+| PostgreSQL | `SERIAL`, `BIGSERIAL`, `GENERATED AS IDENTITY` | Identity is the modern standard   |
+| MySQL      | `AUTO_INCREMENT`                               | Used with integer columns         |
+| SQLite     | `INTEGER PRIMARY KEY`                          | Only works with exact column name |
+
+---
+
+### Timestamp Precision & Time Zone
+
+| Database   | Type                       | Notes                            |
+| ---------- | -------------------------- | -------------------------------- |
+| PostgreSQL | `TIMESTAMP`, `TIMESTAMPTZ` | Time zone support                |
+| MySQL      | `DATETIME`, `TIMESTAMP`    | `TIMESTAMP` is time-zone aware   |
+| SQLite     | `TEXT`, `INTEGER`, `REAL`  | Stored as value, not native type |
+
+---
+
+### Boolean Representation
+
+| Database   | Type      | Stored As              |
+| ---------- | --------- | ---------------------- |
+| PostgreSQL | `BOOLEAN` | `TRUE` / `FALSE`       |
+| MySQL      | `BOOLEAN` | Alias for `TINYINT(1)` |
+| SQLite     | `BOOLEAN` | Stored as `0` or `1`   |
+
+---
+
+### Text Length Enforcement
+
+| Database   | `VARCHAR(n)` Behavior |
+| ---------- | --------------------- |
+| PostgreSQL | Enforced              |
+| MySQL      | Enforced              |
+| SQLite     | Not enforced          |
+
+---
+
+### Key Takeaways
+
+* Use **generic types** (`INT`, `VARCHAR`, `TEXT`, `TIMESTAMP`) for portability
+* Avoid database-specific types unless necessary
+* SQLite is **flexible**, PostgreSQL is **strict**, MySQL sits in between
