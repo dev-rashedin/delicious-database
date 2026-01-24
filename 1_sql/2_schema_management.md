@@ -312,70 +312,88 @@ This section focuses **only on commonly used data types** in **PostgreSQL, MySQL
 Rare, vendor-specific, or legacy types are intentionally excluded.
 
 ---
+Below is a **rewritten, beginner-friendly version** of all tables.
+Each table now includes **clear explanations**, **notes**, and **concrete examples**, written for someone seeing SQL for the first time.
+
+---
 
 ## Common SQL Data Types (RDBMS-Agnostic)
 
-These data types are **conceptually the same** across PostgreSQL, MySQL, and SQLite and are used in almost every application.
+These data types behave **the same conceptually** in PostgreSQL, MySQL, and SQLite.
+You will use these in **almost every table you ever create**.
 
-| Data Type         | Description                       | Typical Use      |
-| ----------------- | --------------------------------- | ---------------- |
-| `INT` / `INTEGER` | Whole numbers                     | IDs, counters    |
-| `BIGINT`          | Large whole numbers               | High-volume IDs  |
-| `DECIMAL(p, s)`   | Exact numeric values              | Money, prices    |
-| `VARCHAR(n)`      | Variable-length string (limit)    | Names, emails    |
-| `TEXT`            | Variable-length string (no limit) | Descriptions     |
-| `DATE`            | Date only                         | Birthdays        |
-| `TIMESTAMP`       | Date and time                     | Logs, created_at |
-| `BOOLEAN`         | True / False                      | Status flags     |
+| Data Type         | What It Stores              | Important Notes (Beginner Explanation)                                         | Typical Use Case     | Example Value                       |
+| ----------------- | --------------------------- | ------------------------------------------------------------------------------ | -------------------- | ----------------------------------- |
+| `INT` / `INTEGER` | Whole numbers (no decimals) | Can store positive or negative numbers. Size is limited compared to `BIGINT`.  | User IDs, counters   | `42`                                |
+| `BIGINT`          | Very large whole numbers    | Used when numbers may exceed normal `INT` limits (millions/billions of rows).  | Large IDs, analytics | `9876543210`                        |
+| `DECIMAL(p, s)`   | Exact numbers with decimals | `p` = total digits, `s` = digits after decimal. **Never rounds unexpectedly**. | Money, prices        | `DECIMAL(10,2)` → `199.99`          |
+| `VARCHAR(n)`      | Text with a length limit    | `n` means **maximum characters allowed**. Helps prevent overly long input.     | Emails, usernames    | `VARCHAR(255)` → `"alice@mail.com"` |
+| `TEXT`            | Text of any length          | No character limit. Use when length is unpredictable.                          | Comments, articles   | `"This is a long message..."`       |
+| `DATE`            | Calendar date only          | Stores **year, month, day**. No time included.                                 | Birthdates           | `1999-08-15`                        |
+| `TIMESTAMP`       | Date and time               | Includes date + time (hours, minutes, seconds).                                | Created time, logs   | `2026-01-24 14:30:00`               |
+| `BOOLEAN`         | True or false               | Logical value used for flags or states.                                        | Active/inactive      | `TRUE`                              |
 
 ---
 
 ## Data Types That Differ Across Databases
 
-These data types exist in all three databases, but **syntax, behavior, or enforcement differs**.
+These concepts exist everywhere, but **syntax or behavior is not identical**.
+
+---
 
 ### Auto-Increment / Identity Columns
 
-| Database   | Data Type / Syntax                             | Notes                             |
-| ---------- | ---------------------------------------------- | --------------------------------- |
-| PostgreSQL | `SERIAL`, `BIGSERIAL`, `GENERATED AS IDENTITY` | Identity is the modern standard   |
-| MySQL      | `AUTO_INCREMENT`                               | Used with integer columns         |
-| SQLite     | `INTEGER PRIMARY KEY`                          | Only works with exact column name |
+Used when you want the database to **automatically generate a unique ID** for each row.
+
+| Database   | Syntax Used                                    | How It Works (Beginner Explanation)                                                     | Typical Use  | Example                  |
+| ---------- | ---------------------------------------------- | --------------------------------------------------------------------------------------- | ------------ | ------------------------ |
+| PostgreSQL | `SERIAL`, `BIGSERIAL`, `GENERATED AS IDENTITY` | Automatically increases the number for each new row. `IDENTITY` is the modern approach. | Primary keys | `id SERIAL`              |
+| MySQL      | `AUTO_INCREMENT`                               | Increments the number every time a new row is inserted.                                 | Primary keys | `id INT AUTO_INCREMENT`  |
+| SQLite     | `INTEGER PRIMARY KEY`                          | Special rule: this column auto-increments **only if named exactly this way**.           | Primary keys | `id INTEGER PRIMARY KEY` |
 
 ---
 
-### Timestamp Precision & Time Zone
+### Timestamp Precision & Time Zone Handling
 
-| Database   | Type                       | Notes                            |
-| ---------- | -------------------------- | -------------------------------- |
-| PostgreSQL | `TIMESTAMP`, `TIMESTAMPTZ` | Time zone support                |
-| MySQL      | `DATETIME`, `TIMESTAMP`    | `TIMESTAMP` is time-zone aware   |
-| SQLite     | `TEXT`, `INTEGER`, `REAL`  | Stored as value, not native type |
+Used to store **date and time**, but databases handle time zones differently.
 
----
-
-### Boolean Representation
-
-| Database   | Type      | Stored As              |
-| ---------- | --------- | ---------------------- |
-| PostgreSQL | `BOOLEAN` | `TRUE` / `FALSE`       |
-| MySQL      | `BOOLEAN` | Alias for `TINYINT(1)` |
-| SQLite     | `BOOLEAN` | Stored as `0` or `1`   |
+| Database   | Type                      | What It Means                                 | Example                 |
+| ---------- | ------------------------- | --------------------------------------------- | ----------------------- |
+| PostgreSQL | `TIMESTAMP`               | Date + time, **no time zone**                 | `2026-01-24 14:30:00`   |
+| PostgreSQL | `TIMESTAMPTZ`             | Date + time **with time zone awareness**      | Auto-adjusted           |
+| MySQL      | `DATETIME`                | Date + time, no time zone                     | `2026-01-24 14:30:00`   |
+| MySQL      | `TIMESTAMP`               | Stores time in UTC internally                 | Converted automatically |
+| SQLite     | `TEXT`, `INTEGER`, `REAL` | No real date type; stored as string or number | `"2026-01-24 14:30"`    |
 
 ---
 
-### Text Length Enforcement
+### Boolean Representation Differences
 
-| Database   | `VARCHAR(n)` Behavior |
-| ---------- | --------------------- |
-| PostgreSQL | Enforced              |
-| MySQL      | Enforced              |
-| SQLite     | Not enforced          |
+All databases support logical true/false, but **storage differs internally**.
+
+| Database   | Declared Type | Stored Internally As | Example |
+| ---------- | ------------- | -------------------- | ------- |
+| PostgreSQL | `BOOLEAN`     | True boolean value   | `TRUE`  |
+| MySQL      | `BOOLEAN`     | Numeric (`1` or `0`) | `1`     |
+| SQLite     | `BOOLEAN`     | Numeric (`1` or `0`) | `0`     |
+
+---
+
+### Text Length Enforcement (`VARCHAR(n)`)
+
+Controls whether the database **strictly enforces text length limits**.
+
+| Database   | Length Limit Enforced? | What This Means                         |
+| ---------- | ---------------------- | --------------------------------------- |
+| PostgreSQL | Yes                    | Values longer than `n` are rejected     |
+| MySQL      | Yes                    | Values longer than `n` cause errors     |
+| SQLite     | No                     | Limit is ignored; any length is allowed |
 
 ---
 
 ### Key Takeaways
 
-* Use **generic types** (`INT`, `VARCHAR`, `TEXT`, `TIMESTAMP`) for portability
-* Avoid database-specific types unless necessary
-* SQLite is **flexible**, PostgreSQL is **strict**, MySQL sits in between
+* Use `INT`, `VARCHAR`, `TEXT`, `DATE`, `TIMESTAMP` for **most schemas**
+* Use `DECIMAL` for **money**, never `FLOAT`
+* Auto-increment behavior **differs**, but the concept is the same
+* SQLite is flexible, PostgreSQL is strict, MySQL is mixed
