@@ -317,7 +317,7 @@ Each table now includes **clear explanations**, **notes**, and **concrete exampl
 
 ---
 
-## Common SQL Data Types (RDBMS-Agnostic)
+### Common SQL Data Types (RDBMS-Agnostic)
 
 These data types behave **the same conceptually** in PostgreSQL, MySQL, and SQLite.
 You will use these in **almost every table you ever create**.
@@ -335,7 +335,7 @@ You will use these in **almost every table you ever create**.
 
 ---
 
-## Data Types That Differ Across Databases
+### Data Types That Differ Across Databases
 
 These concepts exist everywhere, but **syntax or behavior is not identical**.
 

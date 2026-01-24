@@ -57,7 +57,6 @@ This will retrieve every column in the `Customers` table.
 Sometimes, you only want **unique values** from a column. This is where `DISTINCT` comes in.
 
 
-
 ```sql
 -- Syntax
 SELECT DISTINCT column1, column2, ...
@@ -92,10 +91,6 @@ FROM Customers;
 ```
 
 This will return all rows, including repeated country names.
-
----
-
-By mastering `SELECT` and `SELECT DISTINCT`, you can **retrieve exactly the data you need**, avoid duplicates when necessary, and perform basic data analysis efficiently.
 
 
 ## Filtering Data with `WHERE`
