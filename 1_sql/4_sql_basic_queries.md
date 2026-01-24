@@ -98,7 +98,6 @@ This will return all rows, including repeated country names.
 By mastering `SELECT` and `SELECT DISTINCT`, you can **retrieve exactly the data you need**, avoid duplicates when necessary, and perform basic data analysis efficiently.
 
 
-
 ## Filtering Data with `WHERE`
 
 The `WHERE` clause is used to **filter records** and retrieve only rows that meet a specified condition.
@@ -176,16 +175,60 @@ FROM Customers
 ORDER BY Country ASC, CustomerName DESC;
 ```
 
-- LIMIT / OFFSET
 
-- Aliases
+## Logical Operators, NULL Handling, and Limiting Results
 
-- LIKE, IN, BETWEEN
+### Logical Operators: `AND`, `OR`, `NOT`
 
-- NULL handling (IS NULL)
+```sql
+-- Syntax Examples
 
-- Aggregate functions (COUNT, SUM, AVG, MIN, MAX)
+-- AND: Select customers from Mexico in Mexico City
+SELECT *
+FROM Customers
+WHERE Country = 'Mexico' AND City = 'México D.F.';
 
-- GROUP BY
+-- OR: Select customers from Mexico or Germany
+SELECT *
+FROM Customers
+WHERE Country = 'Mexico' OR Country = 'Germany';
 
-- HAVING
+-- NOT: Select customers NOT from Mexico
+SELECT *
+FROM Customers
+WHERE NOT Country = 'Mexico';
+```
+
+### Handling NULL Values
+
+```sql
+-- Syntax Examples
+
+-- IS NULL: Select customers with no postal code
+SELECT *
+FROM Customers
+WHERE PostalCode IS NULL;
+
+-- IS NOT NULL: Select customers with a postal code
+SELECT *
+FROM Customers
+WHERE PostalCode IS NOT NULL;
+```
+
+### Limiting Results: `LIMIT` and `OFFSET`
+
+```sql
+-- Syntax Examples
+
+-- LIMIT: Return only the first 5 customers
+SELECT *
+FROM Customers
+LIMIT 5;
+
+-- OFFSET: Skip the first 5 customers and return the next 5
+SELECT *
+FROM Customers
+LIMIT 5 OFFSET 5;
+
+-- Note: Works the same in PostgreSQL, MySQL, and SQLite
+```
