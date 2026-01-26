@@ -1,22 +1,122 @@
 # SQL Basic Queries
 
-In SQL, **queries** are used to interact with databases: retrieving, filtering, and organizing data. This article covers the fundamental query types every developer should know, focusing on PostgreSQL, MySQL, and SQLite.
+In SQL, **queries** are used to insert, modify, delete, and retrieve data from database tables. After learning how to design databases and define data constraints, the next step is working with real data.
+
+This article focuses on the **core data manipulation and querying commands** used in everyday development, using PostgreSQL, MySQL, and SQLite.
 
 You will learn how to:
 
-- Retrieve data from a table using `SELECT`.
+- Add new records using `INSERT`.
+- Modify existing data with `UPDATE`.
+- Remove records safely with `DELETE`.
+- Retrieve data using `SELECT`.
 - Filter results with `WHERE`.
 - Remove duplicates using `DISTINCT`.
-- Sort results with `ORDER BY`.
-- Limit the number of returned rows using `LIMIT`.
-- Perform simple aggregations with `COUNT`, `SUM`, `AVG`, `MIN`, and `MAX`.
+- Sort data with `ORDER BY`.
+- Limit results using `LIMIT` and `OFFSET`.
+- Perform basic analysis with `COUNT`, `SUM`, `AVG`, `MIN`, and `MAX`.
 
-All examples are designed to be **portable across PostgreSQL, MySQL, and SQLite**, with any differences clearly indicated. By the end of this article, you’ll be able to write basic SQL queries to explore and extract meaningful data from your databases efficiently.
-
-
+All examples are designed to be **portable across PostgreSQL, MySQL, and SQLite**, with differences clearly indicated when necessary. By the end of this article, you will be able to perform complete CRUD (Create, Read, Update, Delete) operations and write efficient basic queries for real-world applications.
 
 
-## Creating Data with `INSERT INTO`
+
+## Inserting Data with `INSERT INTO`
+
+The `INSERT INTO` statement is used to add new records to a table.
+
+### Inserting Data with Column Names
+
+It is recommended to specify column names when inserting data. This makes queries clearer and safer.
+
+```sql
+-- Syntax
+INSERT INTO table_name (column1, column2, column3, ...)
+VALUES (value1, value2, value3, ...);
+
+-- Example: Insert a New Customer
+INSERT INTO Customers (
+  CustomerName,
+  ContactName,
+  Address,
+  City,
+  PostalCode,
+  Country
+)
+VALUES (
+  'Cardinal',
+  'Tom B. Erichsen',
+  'Skagen 21',
+  'Stavanger',
+  '4006',
+  'Norway'
+);
+```
+
+If a column is defined as auto-increment (such as `CustomerID`), its value is generated automatically.
+
+---
+
+### Inserting Data Without Column Names
+
+When inserting values for **all columns**, you can omit column names. The order of values must match the table structure.
+
+```sql
+-- Syntax & Example
+-- Insert values for all columns (order must match table definition)
+INSERT INTO Customers
+VALUES (
+  NULL,
+  'Cardinal',
+  'Tom B. Erichsen',
+  'Skagen 21',
+  'Stavanger',
+  '4006',
+  'Norway'
+);
+```
+
+> Note: Using this format is not recommended for large projects because it depends on column order.
+
+---
+
+### Inserting Data into Selected Columns
+
+You can insert data into specific columns. Other columns will use `NULL` or their default values.
+
+```sql
+-- Syntax & Example
+-- Insert data into selected columns only
+INSERT INTO Customers (CustomerName, City, Country)
+VALUES ('Cardinal', 'Stavanger', 'Norway');
+```
+
+Columns that are not included will receive `NULL` or default values.
+
+---
+
+### Inserting Multiple Rows
+
+You can insert multiple records in a single query using multiple value sets.
+
+```sql
+-- Syntax & Example
+-- Insert multiple customers at once
+INSERT INTO Customers (
+  CustomerName,
+  ContactName,
+  Address,
+  City,
+  PostalCode,
+  Country
+)
+VALUES
+  ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway'),
+  ('Greasy Burger', 'Per Olsen', 'Gateveien 15', 'Sandnes', '4306', 'Norway'),
+  ('Tasty Tee', 'Finn Egan', 'Streetroad 19B', 'Liverpool', 'L1 0AA', 'UK');
+```
+
+> Each set of values must be separated by a comma.
+
 
 ## Update Data with `UPDATE`
 
