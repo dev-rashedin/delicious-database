@@ -119,9 +119,87 @@ Each set of values must be separated by a comma.
 ---
 
 
-## Update Data with `UPDATE`
+## Updating Data with `UPDATE`
 
-## Delete Data With `DELETE`
+The `UPDATE` statement is used to **modify existing records** in a table. Always use a `WHERE` clause to avoid updating all rows accidentally.
+
+```sql
+-- Syntax
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+
+-- Example: Update a Single Record
+-- Change the contact name and city for CustomerID = 1
+UPDATE Customers
+SET ContactName = 'Alfred Schmidt',
+    City = 'Frankfurt'
+WHERE CustomerID = 1;
+```
+
+### Updating Multiple Records
+
+The `WHERE` clause controls how many records are updated. Without it, all records in the table are modified.
+
+```sql
+-- Example: Update multiple rows
+-- Set ContactName to 'Juan' for all customers in Mexico
+UPDATE Customers
+SET ContactName = 'Juan'
+WHERE Country = 'Mexico';
+```
+
+### Warning: Omitting the WHERE Clause
+
+If you omit the `WHERE` clause, **all rows in the table will be updated**:
+
+```sql
+-- Example: Dangerous - updates all rows!
+UPDATE Customers
+SET ContactName = 'Juan';
+```
+
+Always double-check your `WHERE` condition before running an `UPDATE` to prevent accidental mass changes.
+
+---
+
+## Deleting Data with `DELETE`
+
+The `DELETE` statement is used to **remove existing records** from a table. Always use a `WHERE` clause to avoid deleting all rows unintentionally.
+
+```sql
+-- Syntax
+DELETE FROM table_name
+WHERE condition;
+
+-- Example: Delete a single customer
+-- Remove "Alfreds Futterkiste" from the Customers table
+DELETE FROM Customers
+WHERE CustomerName = 'Alfreds Futterkiste';
+```
+
+### Deleting All Records
+
+If you omit the `WHERE` clause, **all rows in the table will be deleted**, but the table structure remains intact:
+
+```sql
+-- Example: Delete all rows from the Customers table
+DELETE FROM Customers;
+```
+
+### Deleting the Entire Table
+
+To remove the table completely, including its structure and indexes, use `DROP TABLE`:
+
+```sql
+-- Example: Drop the Customers table
+DROP TABLE Customers;
+```
+
+> **Warning:** Always double-check your `WHERE` condition when using `DELETE`. Omitting it will remove all data in the table.
+
+---
+
 
 ## Retrieving Data with `SELECT`
 

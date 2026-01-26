@@ -68,7 +68,6 @@ Notes:
 
 PostgreSQL, MySQL, and SQLite do not support `BACKUP DATABASE` as an SQL command. They use external tools.
 
----
 
 ### PostgreSQL Backup
 
@@ -121,19 +120,6 @@ Notes:
 
 Before creating tables, you must know **which database you are working in**.
 
-### Check Current Database
-
-```sql
--- PostgreSQL
-SELECT current_database();
-
--- MySQL
-SELECT DATABASE();
-
--- SQLite
-PRAGMA database_list;
-```
-
 ### List All Databases
 
 ```sql
@@ -147,6 +133,19 @@ SHOW DATABASES;
 
 -- SQLite
 .databases
+```
+
+### Check Current Database
+
+```sql
+-- PostgreSQL
+SELECT current_database();
+
+-- MySQL
+SELECT DATABASE();
+
+-- SQLite
+PRAGMA database_list;
 ```
 
 ### Switch / Connect to Another Database
@@ -163,6 +162,34 @@ USE dbname;
 ```
 
 Always confirm the active database before creating or deleting tables.
+
+---
+
+### Check Database Information
+
+Before creating tables or running queries, it is often useful to know **which database you are connected to** and some basic info about it.
+
+```sql
+-- PostgreSQL: Show the current database name
+SELECT current_database();  -- Returns the name of the connected database
+
+-- PostgreSQL: Show all databases
+\l                        -- Lists all databases (psql terminal shortcut)
+-- or using SQL
+SELECT datname FROM pg_database;
+
+-- MySQL: Show the current database name
+SELECT DATABASE();         -- Returns the name of the connected database
+
+-- MySQL: Show all databases
+SHOW DATABASES;
+
+-- SQLite: Show the filename of the current database
+PRAGMA database_list;      -- Returns file path and name of attached databases
+
+-- SQLite: List all tables in the current database
+.tables                    -- Terminal shortcut to list all tables
+```
 
 ## Create Table
 
