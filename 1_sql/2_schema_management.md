@@ -327,7 +327,7 @@ You will use these in **almost every table you ever create**.
 | `INT` / `INTEGER` | Whole numbers (no decimals) | Can store positive or negative numbers. Size is limited compared to `BIGINT`.  | User IDs, counters   | `42`                                |
 | `BIGINT`          | Very large whole numbers    | Used when numbers may exceed normal `INT` limits (millions/billions of rows).  | Large IDs, analytics | `9876543210`                        |
 | `DECIMAL(p, s)`   | Exact numbers with decimals | `p` = total digits, `s` = digits after decimal. **Never rounds unexpectedly**. | Money, prices        | `DECIMAL(10,2)` → `199.99`          |
-| `VARCHAR(n)`      | Text with a length limit    | `n` means **maximum characters allowed**. Helps prevent overly long input.     | Emails, usernames    | `VARCHAR(255)` → `"alice@mail.com"` |
+| `VARCHAR(n)`      | Text with a length limit    | `n` means **maximum characters allowed (0 to 65535)**. Helps prevent overly long input.     | Emails, usernames    | `VARCHAR(255)` → `"alice@mail.com"` |
 | `TEXT`            | Text of any length          | No character limit. Use when length is unpredictable.                          | Comments, articles   | `"This is a long message..."`       |
 | `DATE`            | Calendar date only          | Stores **year, month, day**. No time included.                                 | Birthdates           | `1999-08-15`                        |
 | `TIMESTAMP`       | Date and time               | Includes date + time (hours, minutes, seconds).                                | Created time, logs   | `2026-01-24 14:30:00`               |
@@ -397,93 +397,3 @@ Controls whether the database **strictly enforces text length limits**.
 * Use `DECIMAL` for **money**, never `FLOAT`
 * Auto-increment behavior **differs**, but the concept is the same
 * SQLite is flexible, PostgreSQL is strict, MySQL is mixed
-
-
-
-## SQL Dates
-
-When working with dates, the key is to ensure that the format of the data matches the column type in your database. Queries work reliably as long as your date values match the column format.
-
-### SQL Date Data Types
-
-**MySQL / PostgreSQL / SQLite:**
-
-- `DATE` — stores date only (format `YYYY-MM-DD`)
-- `DATETIME` — stores date and time (format `YYYY-MM-DD HH:MI:SS`)
-- `TIMESTAMP` — stores date and time (MySQL/PostgreSQL: `YYYY-MM-DD HH:MI:SS`; SQLite: same as `DATETIME`)
-
-> Note: Choose the appropriate type when creating a table column.
-
-### Working with Dates
-
-Assume we have an `Orders` table:
-
-| OrderId | ProductName          | OrderDate           |
-|---------|--------------------|-------------------|
-| 1       | Geitost             | 2008-11-11        |
-| 2       | Camembert Pierrot   | 2008-11-09        |
-| 3       | Mozzarella di Giovanni | 2008-11-11     |
-| 4       | Mascarpone Fabioli  | 2008-10-29        |
-
-To select orders on `2008-11-11`:
-
-```sql
-SELECT * FROM Orders
-WHERE OrderDate = '2008-11-11';
-```
-
-**Result:**
-
-| OrderId | ProductName            | OrderDate  |
-| ------- | ---------------------- | ---------- |
-| 1       | Geitost                | 2008-11-11 |
-| 3       | Mozzarella di Giovanni | 2008-11-11 |
-
-> Two dates can easily be compared if there is no time component.
-
-If the table contains a time component:
-
-| OrderId | ProductName       | OrderDate           |
-| ------- | ----------------- | ------------------- |
-| 1       | Geitost           | 2008-11-11 13:23:44 |
-| 2       | Camembert Pierrot | 2008-11-09 15:45:21 |
-Continuing the section for SQL Dates:
-| 3       | Mozzarella di Giovanni | 2008-11-11 11:12:01 |
-| 4       | Mascarpone Fabioli    | 2008-10-29 14:56:59 |
-
-If you run the same query as before:
-
-```sql
-SELECT * FROM Orders
-WHERE OrderDate = '2008-11-11';
-```
-
-You will get **no results**, because the query only matches exact date values with no time component.
-
-### Tips
-
-* To keep queries simple and maintainable, **avoid using time components** in date columns unless necessary.
-* Use date functions when working with time components:
-
-  * **MySQL / PostgreSQL:** `DATE(OrderDate) = '2008-11-11'`
-  * **SQLite:** `DATE(OrderDate) = '2008-11-11'`
-* Always be aware of the **time zone** if using `TIMESTAMP` columns in MySQL/PostgreSQL.
-
-### Creating Tables with Dates
-
-```sql
--- MySQL / PostgreSQL / SQLite
-CREATE TABLE Orders (
-    OrderID INT PRIMARY KEY,
-    ProductName VARCHAR(255) NOT NULL,
-    OrderDate DATE
-);
-
--- With datetime
-CREATE TABLE Orders (
-    OrderID INT PRIMARY KEY,
-    ProductName VARCHAR(255) NOT NULL,
-    OrderDate DATETIME
-);
-```
-
