@@ -77,7 +77,6 @@ VALUES (
 
 > Note: Using this format is not recommended for large projects because it depends on column order.
 
----
 
 ### Inserting Data into Selected Columns
 
@@ -115,7 +114,9 @@ VALUES
   ('Tasty Tee', 'Finn Egan', 'Streetroad 19B', 'Liverpool', 'L1 0AA', 'UK');
 ```
 
-> Each set of values must be separated by a comma.
+Each set of values must be separated by a comma.
+
+---
 
 
 ## Update Data with `UPDATE`
