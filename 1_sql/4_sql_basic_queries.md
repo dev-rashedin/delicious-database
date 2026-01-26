@@ -14,8 +14,13 @@ You will learn how to:
 All examples are designed to be **portable across PostgreSQL, MySQL, and SQLite**, with any differences clearly indicated. By the end of this article, you’ll be able to write basic SQL queries to explore and extract meaningful data from your databases efficiently.
 
 
-Perfect — thanks for sharing. Here’s a **clean, RDBMS-focused Markdown article section** for **`SELECT` and `SELECT DISTINCT`** tailored to PostgreSQL, MySQL, and SQLite:
 
+
+## Creating Data with `INSERT INTO`
+
+## Update Data with `UPDATE`
+
+## Delete Data With `DELETE`
 
 ## Retrieving Data with `SELECT`
 

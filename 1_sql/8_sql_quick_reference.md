@@ -1,1 +1,0 @@
-# SQL Quick Reference
