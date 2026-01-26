@@ -1,66 +1,22 @@
-# SQL Database Essentials: Schema Management (Part 3)
+# Delicious Database (Part 2): SQL Schema Management and Data Types
 
-## Focused on PostgreSQL, MySQL, and SQLite
+This article covers the core concepts of SQL database creation, modification, backup, table management, and data types. It is a practical reference for developers who want to understand database structure, constraints, and administration using SQL.
 
-This article covers how to create, manage, and modify databases and tables using SQL. All examples are written for **PostgreSQL, MySQL, and SQLite only**.
+
+This is a DBMS-agnostic article series. However, whenever SQL syntax or examples differ, only **PostgreSQL, MySQL, and SQLite** are included.
 
 You will learn how to:
 
-* Check which database you are connected to
-* Switch between databases
 * Create and delete databases
 * Back up databases
+* Check which database you are connected to
+* Switch between databases
 * Create, drop, and modify tables
 * Choose appropriate data types
 
-This guide is designed for **absolute beginners** and also works as a quick reference.
 
----
+Whether you're a beginner, an intermediate, or an experienced developer, this guide will help you strengthen your understanding of SQL database fundamentals. You can use it both as a learning resource and as a quick reference.
 
-## Check and Change the Current Database
-
-Before creating tables, you must know **which database you are working in**.
-
-### Check Current Database
-
-```sql
--- PostgreSQL
-SELECT current_database();
-
--- MySQL
-SELECT DATABASE();
-
--- SQLite
-PRAGMA database_list;
-```
-
-### List All Databases
-
-```sql
--- PostgreSQL
-\l
-
--- MySQL
-SHOW DATABASES;
-
--- SQLite
-.databases
-```
-
-### Switch / Connect to Another Database
-
-```sql
--- PostgreSQL (psql)
-\c dbname
-
--- MySQL
-USE dbname;
-
--- SQLite
-.open dbname.db
-```
-
-Always confirm the active database before creating or deleting tables.
 
 ---
 
@@ -160,6 +116,53 @@ Notes:
 * Store backups in a different location
 
 ---
+
+## Check and Change the Current Database
+
+Before creating tables, you must know **which database you are working in**.
+
+### Check Current Database
+
+```sql
+-- PostgreSQL
+SELECT current_database();
+
+-- MySQL
+SELECT DATABASE();
+
+-- SQLite
+PRAGMA database_list;
+```
+
+### List All Databases
+
+```sql
+-- PostgreSQL
+SELECT datname FROM pg_database;
+-- Or using terminal
+\l
+
+-- MySQL
+SHOW DATABASES;
+
+-- SQLite
+.databases
+```
+
+### Switch / Connect to Another Database
+
+```sql
+-- PostgreSQL (psql)
+\c dbname
+
+-- MySQL
+USE dbname;
+
+-- SQLite
+.open dbname.db
+```
+
+Always confirm the active database before creating or deleting tables.
 
 ## Create Table
 
