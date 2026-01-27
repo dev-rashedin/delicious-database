@@ -433,3 +433,8 @@ LIMIT 5 OFFSET 5;
 
 -- Note: Works the same in PostgreSQL, MySQL, and SQLite
 ```
+
+
+- COUNT, SUM, AVG, MIN, MAX
+
+- LIKE, WILDCARDS, IN, BETWEEN, AS
