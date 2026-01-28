@@ -263,8 +263,6 @@ SELECT COUNT(DISTINCT Country) AS UniqueCountries
 FROM Customers;
 ```
 
-> Note: `COUNT(DISTINCT column_name)` works in PostgreSQL, MySQL, and SQLite. Only some older SQL variants, like Microsoft Access, require workarounds.
-
 ### Selecting Without `DISTINCT`
 
 If you omit `DISTINCT`, duplicate values will be included:
@@ -313,7 +311,7 @@ WHERE CustomerID > 80;
 
 ## Sorting Data with `ORDER BY`
 
-The `ORDER BY` clause sorts query results in **ascending (`ASC`)** or **descending (`DESC`)** order. By default, it sorts ascending.
+The `ORDER BY` clause sorts query results in **ascending (`ASC`) (By Default)** or **descending (`DESC`)** order.
 
 ```sql
 -- Syntax
@@ -435,6 +433,183 @@ LIMIT 5 OFFSET 5;
 ```
 
 
-- COUNT, SUM, AVG, MIN, MAX
+Great — now you have everything needed. Below is a **complete section** following your format and style, combining **MAX, MIN, COUNT, SUM, and AVG** into one clean, consistent block.
+
+You can paste this directly into your article.
+
+---
+
+## Aggregate Functions: `MAX`, `MIN`, `COUNT`, `SUM`, `AVG`
+
+> Aggregate functions are used to **summarize data** by performing calculations on multiple rows and returning a single value.
+
+They are commonly used for reporting, analytics, and dashboard-style queries.
+
+```sql
+-- Syntax Pattern
+
+SELECT AGGREGATE_FUNCTION(column_name)
+FROM table_name
+WHERE condition;
+```
+
+---
+
+### Finding Highest and Lowest Values: `MAX` and `MIN`
+
+```sql
+-- Find the lowest product price
+SELECT MIN(Price)
+FROM Products;
+
+-- Find the highest product price
+SELECT MAX(Price)
+FROM Products;
+
+-- Use alias for better readability
+SELECT 
+  MIN(Price) AS SmallestPrice,
+  MAX(Price) AS HighestPrice
+FROM Products;
+
+-- Use with GROUP BY (smallest price per category)
+SELECT 
+  CategoryID,
+  MIN(Price) AS SmallestPrice
+FROM Products
+GROUP BY CategoryID;
+```
+
+> `MIN()` returns the smallest value, and `MAX()` returns the largest value in a column.
+
+---
+
+### Counting Records: `COUNT`
+
+```sql
+-- Count all rows in Products table
+SELECT COUNT(*)
+FROM Products;
+
+-- Count non-NULL product names
+SELECT COUNT(ProductName)
+FROM Products;
+
+-- Count products with price above 20
+SELECT COUNT(ProductID)
+FROM Products
+WHERE Price > 20;
+
+-- Count distinct prices
+SELECT COUNT(DISTINCT Price)
+FROM Products;
+
+-- Use alias
+SELECT COUNT(*) AS TotalProducts
+FROM Products;
+
+-- Count records per category
+SELECT 
+  CategoryID,
+  COUNT(*) AS TotalProducts
+FROM Products
+GROUP BY CategoryID;
+```
+
+> `COUNT(*)` counts all rows.
+> `COUNT(column)` ignores `NULL` values.
+
+---
+
+### Calculating Totals: `SUM`
+
+```sql
+-- Total quantity ordered
+SELECT SUM(Quantity)
+FROM OrderDetails;
+
+-- Sum with condition
+SELECT SUM(Quantity)
+FROM OrderDetails
+WHERE ProductID = 11;
+
+-- Use alias
+SELECT SUM(Quantity) AS TotalQuantity
+FROM OrderDetails;
+
+-- Sum per order
+SELECT 
+  OrderID,
+  SUM(Quantity) AS TotalQuantity
+FROM OrderDetails
+GROUP BY OrderID;
+
+-- Use expression inside SUM
+SELECT SUM(Quantity * 10)
+FROM OrderDetails;
+
+-- Calculate total price using JOIN
+SELECT SUM(Price * Quantity)
+FROM OrderDetails
+LEFT JOIN Products
+ON OrderDetails.ProductID = Products.ProductID;
+```
+
+> `SUM()` works only on numeric columns and is often used for totals and revenue calculations.
+
+---
+
+### Calculating Averages: `AVG`
+
+```sql
+-- Average product price
+SELECT AVG(Price)
+FROM Products;
+
+-- Average price in category 1
+SELECT AVG(Price)
+FROM Products
+WHERE CategoryID = 1;
+
+-- Use alias
+SELECT AVG(Price) AS AveragePrice
+FROM Products;
+
+-- Products priced above average
+SELECT *
+FROM Products
+WHERE Price > (
+  SELECT AVG(Price)
+  FROM Products
+);
+
+-- Average price per category
+SELECT 
+  CategoryID,
+  AVG(Price) AS AveragePrice
+FROM Products
+GROUP BY CategoryID;
+```
+
+> `AVG()` ignores `NULL` values and returns the mean of numeric data.
+
+---
+
+### Summary: When to Use Aggregate Functions
+
+| Function | Purpose        | Example Use Case     |
+| -------- | -------------- | -------------------- |
+| `MIN`    | Lowest value   | Cheapest product     |
+| `MAX`    | Highest value  | Most expensive item  |
+| `COUNT`  | Number of rows | Total users          |
+| `SUM`    | Total value    | Total sales          |
+| `AVG`    | Average value  | Average rating/price |
+
+> These functions are frequently combined with `WHERE`, `GROUP BY`, and `HAVING` for real-world analytics.
+
+---
+
+If you want, next I can help you structure the **transition into GROUP BY and HAVING** using this section.
+
 
 - LIKE, WILDCARDS, IN, BETWEEN, AS
