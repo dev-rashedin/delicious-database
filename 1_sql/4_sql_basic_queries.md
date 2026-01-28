@@ -397,7 +397,6 @@ WHERE NOT CustomerID > 50;
 
 ### Handling NULL Values
 
-
 ```sql
 -- Syntax Examples
 
@@ -431,11 +430,6 @@ LIMIT 5 OFFSET 5;
 
 -- Note: Works the same in PostgreSQL, MySQL, and SQLite
 ```
-
-
-Great — now you have everything needed. Below is a **complete section** following your format and style, combining **MAX, MIN, COUNT, SUM, and AVG** into one clean, consistent block.
-
-You can paste this directly into your article.
 
 ---
 
@@ -609,7 +603,138 @@ GROUP BY CategoryID;
 
 ---
 
-If you want, next I can help you structure the **transition into GROUP BY and HAVING** using this section.
 
+## Pattern Matching, Ranges, Sets, and Aliases
 
-- LIKE, WILDCARDS, IN, BETWEEN, AS
+### Pattern Matching: `LIKE` and Wildcards
+
+> The `LIKE` operator is used to search for a specified pattern in a column. Wildcards define how the pattern matches.
+
+Common wildcards:
+
+* `%` → Matches any number of characters
+* `_` → Matches exactly one character
+
+```sql
+-- Syntax Examples
+
+-- Names starting with 'A'
+SELECT *
+FROM Customers
+WHERE CustomerName LIKE 'A%';
+
+-- Names ending with 'son'
+SELECT *
+FROM Customers
+WHERE CustomerName LIKE '%son';
+
+-- Names containing 'market'
+SELECT *
+FROM Customers
+WHERE CustomerName LIKE '%market%';
+
+-- Names with exactly 5 letters
+SELECT *
+FROM Customers
+WHERE CustomerName LIKE '_____';
+
+-- Second letter is 'a'
+SELECT *
+FROM Customers
+WHERE CustomerName LIKE '_a%';
+```
+
+---
+
+### Filtering with Sets: `IN`
+
+> The `IN` operator allows you to match a value against multiple possible values.
+
+It is a cleaner alternative to using many `OR` conditions.
+
+```sql
+-- Syntax Examples
+
+-- Customers from selected countries
+SELECT *
+FROM Customers
+WHERE Country IN ('USA', 'UK', 'Canada');
+
+-- Same as:
+-- WHERE Country = 'USA' OR Country = 'UK' OR Country = 'Canada'
+
+-- Exclude countries
+SELECT *
+FROM Customers
+WHERE Country NOT IN ('Mexico', 'Spain');
+```
+
+---
+
+### Filtering with Ranges: `BETWEEN`
+
+> The `BETWEEN` operator selects values within a given range (inclusive).
+
+Works with numbers, dates, and text.
+
+```sql
+-- Syntax Examples
+
+-- Prices between 10 and 50
+SELECT *
+FROM Products
+WHERE Price BETWEEN 10 AND 50;
+
+-- Dates between two values
+SELECT *
+FROM Orders
+WHERE OrderDate BETWEEN '2025-01-01' AND '2025-12-31';
+
+-- Exclude a range
+SELECT *
+FROM Products
+WHERE Price NOT BETWEEN 10 AND 50;
+```
+
+---
+
+### Renaming Columns and Tables: `AS` (Aliases)
+
+> Aliases are used to give columns or tables temporary names in query results.
+
+They improve readability and are commonly used with functions.
+
+```sql
+-- Syntax Examples
+
+-- Column alias
+SELECT CustomerName AS Name, Country AS Location
+FROM Customers;
+
+-- With aggregate function
+SELECT COUNT(*) AS TotalCustomers
+FROM Customers;
+
+-- Table alias
+SELECT c.CustomerName, o.OrderID
+FROM Customers AS c
+JOIN Orders AS o ON c.CustomerID = o.CustomerID;
+```
+
+> Aliases exist only during query execution. They do not change the actual table structure.
+
+---
+
+### Summary
+
+| Feature   | Purpose                  |
+| --------- | ------------------------ |
+| `LIKE`    | Pattern matching         |
+| `%`, `_`  | Wildcards for `LIKE`     |
+| `IN`      | Match multiple values    |
+| `BETWEEN` | Filter within a range    |
+| `AS`      | Rename columns or tables |
+
+These operators are used very frequently in real-world queries and form the foundation for advanced filtering and reporting.
+
+---
