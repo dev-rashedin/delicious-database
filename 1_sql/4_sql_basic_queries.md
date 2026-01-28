@@ -1,4 +1,4 @@
-# SQL Basic Queries
+# Delicious Database (Part 6): SQL for Developers - Basic Queries
 
 In SQL, **queries** are used to insert, modify, delete, and retrieve data from database tables. After learning how to design databases and define data constraints, the next step is working with real data.
 

@@ -1,4 +1,4 @@
-# SQL for Developers Series — Introduction
+# Delicious Database (Part 3): SQL for Developers — Introduction
 
 Welcome to the **SQL for Developers Series** — a structured set of articles designed for developers who want to master SQL from the ground up or quickly refresh their skills. This series is **language-agnostic** whenever possible, and focuses only on **PostgreSQL, MySQL, and SQLite** when syntax differs.
 

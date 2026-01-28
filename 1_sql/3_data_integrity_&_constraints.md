@@ -1,3 +1,5 @@
+# Delicious Database (Part 5): SQL for Developers - Data Integrity & Constraints
+
 ## Constraints
 
 SQL constraints define rules that enforce **data integrity and consistency** within a database. They control what values can be stored in a table and prevent invalid data from being inserted, updated, or deleted.

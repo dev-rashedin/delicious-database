@@ -1,4 +1,4 @@
-# SQL Advanced Queries
+# Delicious Database (Part 7): SQL for Developers - Advanced Queries
 
 After mastering basic CRUD operations and fundamental filtering techniques, the next step is learning how to analyze data, combine multiple tables, and write more powerful queries.
 

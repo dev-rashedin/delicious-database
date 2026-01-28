@@ -1,4 +1,4 @@
-# Delicious Database (Part 2): SQL Schema Management and Data Types
+# Delicious Database (Part 4): SQL for Developers - Schema Management and Data Types
 
 This article covers the core concepts of SQL database creation, modification, backup, table management, and data types. It is a practical reference for developers who want to understand database structure, constraints, and administration using SQL.
 
