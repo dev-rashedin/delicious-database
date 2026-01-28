@@ -19,7 +19,6 @@ You will learn how to:
 All examples are designed to be **portable across PostgreSQL, MySQL, and SQLite**, with differences clearly indicated when necessary. By the end of this article, you will be able to perform complete CRUD (Create, Read, Update, Delete) operations and write efficient basic queries for real-world applications.
 
 
-
 ## Inserting Data with `INSERT INTO`
 
 The `INSERT INTO` statement is used to add new records to a table.
@@ -494,7 +493,7 @@ SELECT COUNT(ProductID)
 FROM Products
 WHERE Price > 20;
 
--- Count distinct prices
+-- Count distinct prices (Ignore duplicates)
 SELECT COUNT(DISTINCT Price)
 FROM Products;
 
@@ -736,5 +735,3 @@ JOIN Orders AS o ON c.CustomerID = o.CustomerID;
 | `AS`      | Rename columns or tables |
 
 These operators are used very frequently in real-world queries and form the foundation for advanced filtering and reporting.
-
----
