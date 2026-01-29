@@ -497,6 +497,387 @@ Final Result
 
 ---
 
+## Combining Tables with `JOIN`
+
+In relational databases, data is usually stored across multiple tables. To work with related data, SQL provides the `JOIN` clause.
+
+A `JOIN` combines rows from two or more tables based on a related column.
+
+Most commonly, tables are connected using **primary keys and foreign keys**.
+
+Example relationship:
+
+* `Customers.CustomerID` → Primary Key
+* `Orders.CustomerID` → Foreign Key
+
+These columns link the two tables.
+
+---
+
+### Basic JOIN Syntax
+
+```sql
+-- Syntax
+
+SELECT column1, column2, ...
+FROM table1
+JOIN table2
+ON table1.common_column = table2.common_column;
+```
+
+Always use `ON` to specify how tables are related.
+
+---
+
+## `INNER JOIN`
+
+`INNER JOIN` returns only rows that exist in **both tables**.
+
+If there is no match, the row is excluded.
+
+---
+
+### Example: Customers with Their Orders
+
+```sql
+-- Example: Get orders with customer names
+
+SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
+FROM Orders
+INNER JOIN Customers
+ON Orders.CustomerID = Customers.CustomerID;
+```
+
+Only customers who have orders will appear.
+
+---
+
+### Syntax
+
+```sql
+SELECT columns
+FROM table1
+INNER JOIN table2
+ON condition;
+```
+
+---
+
+### `JOIN` vs `INNER JOIN`
+
+These are equivalent:
+
+```sql
+-- Both are the same
+
+SELECT *
+FROM Products
+JOIN Categories
+ON Products.CategoryID = Categories.CategoryID;
+
+SELECT *
+FROM Products
+INNER JOIN Categories
+ON Products.CategoryID = Categories.CategoryID;
+```
+
+`JOIN` defaults to `INNER JOIN`.
+
+---
+
+### Joining Multiple Tables
+
+```sql
+-- Example: Orders with customers and shippers
+
+SELECT Orders.OrderID, Customers.CustomerName, Shippers.ShipperName
+FROM Orders
+INNER JOIN Customers
+ON Orders.CustomerID = Customers.CustomerID
+INNER JOIN Shippers
+ON Orders.ShipperID = Shippers.ShipperID;
+```
+
+You can join as many tables as needed.
+
+---
+
+## `LEFT JOIN`
+
+`LEFT JOIN` returns:
+
+* All rows from the **left table**
+* Matching rows from the right table
+* `NULL` if no match exists
+
+---
+
+### Example: All Customers and Their Orders
+
+```sql
+-- Example: Include customers without orders
+
+SELECT Customers.CustomerName, Orders.OrderID
+FROM Customers
+LEFT JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID
+ORDER BY Customers.CustomerName;
+```
+
+Customers without orders will still appear.
+
+---
+
+### Syntax
+
+```sql
+SELECT columns
+FROM table1
+LEFT JOIN table2
+ON condition;
+```
+
+`LEFT OUTER JOIN` is the same as `LEFT JOIN`.
+
+---
+
+## `RIGHT JOIN`
+
+`RIGHT JOIN` returns:
+
+* All rows from the **right table**
+* Matching rows from the left table
+* `NULL` if no match exists
+
+---
+
+### Example: All Employees and Their Orders
+
+```sql
+-- Example: Include employees without orders
+
+SELECT Orders.OrderID, Employees.LastName, Employees.FirstName
+FROM Orders
+RIGHT JOIN Employees
+ON Orders.EmployeeID = Employees.EmployeeID
+ORDER BY Orders.OrderID;
+```
+
+Employees without orders are included.
+
+---
+
+### Syntax
+
+```sql
+SELECT columns
+FROM table1
+RIGHT JOIN table2
+ON condition;
+```
+
+---
+
+### Note on PostgreSQL and SQLite
+
+* PostgreSQL: Supports `RIGHT JOIN`
+* SQLite: Does NOT support `RIGHT JOIN` directly
+
+In SQLite, rewrite using `LEFT JOIN`:
+
+```sql
+-- Convert RIGHT JOIN to LEFT JOIN in SQLite
+
+SELECT Orders.OrderID, Employees.LastName, Employees.FirstName
+FROM Employees
+LEFT JOIN Orders
+ON Orders.EmployeeID = Employees.EmployeeID;
+```
+
+---
+
+## `FULL OUTER JOIN`
+
+`FULL JOIN` returns:
+
+* All rows from both tables
+* Matches where possible
+* `NULL` where no match exists
+
+---
+
+### Example: All Customers and All Orders
+
+```sql
+-- Example: Include unmatched customers and orders
+
+SELECT Customers.CustomerName, Orders.OrderID
+FROM Customers
+FULL OUTER JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID
+ORDER BY Customers.CustomerName;
+```
+
+---
+
+### Syntax
+
+```sql
+SELECT columns
+FROM table1
+FULL OUTER JOIN table2
+ON condition;
+```
+
+---
+
+### Database Support
+
+| Database   | FULL JOIN |
+| ---------- | --------- |
+| PostgreSQL | ✅ Yes     |
+| MySQL      | ❌ No      |
+| SQLite     | ❌ No      |
+
+MySQL and SQLite workaround:
+
+```sql
+-- Simulate FULL JOIN using UNION
+
+SELECT *
+FROM Customers
+LEFT JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID
+
+UNION
+
+SELECT *
+FROM Customers
+RIGHT JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID;
+```
+
+---
+
+## `SELF JOIN`
+
+A `SELF JOIN` joins a table with itself.
+
+It is useful when rows inside the same table are related.
+
+Example: Customers from the same city.
+
+---
+
+### Syntax
+
+```sql
+SELECT columns
+FROM table AS A
+JOIN table AS B
+ON condition;
+```
+
+Aliases are required to distinguish the table.
+
+---
+
+### Example: Customers from the Same City
+
+```sql
+-- Example: Match customers in the same city
+
+SELECT A.CustomerName AS Customer1,
+       B.CustomerName AS Customer2,
+       A.City
+FROM Customers A
+JOIN Customers B
+ON A.City = B.City
+AND A.CustomerID <> B.CustomerID
+ORDER BY A.City;
+```
+
+This finds customers living in the same city.
+
+---
+
+## Summary of JOIN Types
+
+| Join Type | Includes Non-Matching Rows | Use Case                  |
+| --------- | -------------------------- | ------------------------- |
+| INNER     | ❌ No                       | Only matching data        |
+| LEFT      | ✅ Left side                | Keep all left records     |
+| RIGHT     | ✅ Right side               | Keep all right records    |
+| FULL      | ✅ Both sides               | Complete comparison       |
+| SELF      | Same table                 | Hierarchies / comparisons |
+
+---
+
+## Practical Guidelines
+
+### Use `INNER JOIN` when:
+
+* You only want matching records
+
+### Use `LEFT JOIN` when:
+
+* You want all main records, even without matches
+
+### Use `RIGHT JOIN` when:
+
+* You want all records from the second table
+
+### Use `FULL JOIN` when:
+
+* You want a full comparison
+
+### Use `SELF JOIN` when:
+
+* A table references itself
+
+---
+
+## Best Practices
+
+### Always Qualify Column Names
+
+```sql
+-- Good practice
+
+SELECT Orders.OrderID, Customers.CustomerName
+FROM Orders
+JOIN Customers
+ON Orders.CustomerID = Customers.CustomerID;
+```
+
+Avoid ambiguity.
+
+---
+
+### Use Aliases for Readability
+
+```sql
+SELECT o.OrderID, c.CustomerName
+FROM Orders o
+JOIN Customers c
+ON o.CustomerID = c.CustomerID;
+```
+
+Improves clarity in complex queries.
+
+---
+
+## Key Takeaways
+
+* `JOIN` connects related tables
+* `INNER JOIN` → matching only
+* `LEFT/RIGHT JOIN` → preserve one side
+* `FULL JOIN` → preserve both sides
+* `SELF JOIN` → same table
+* SQLite lacks `RIGHT` and `FULL` joins
+
+---
+
 
 ## Topics Covered
 
