@@ -217,4 +217,133 @@ Important rule:
 
 Example (multi-line query):
 
+```sql
+SELECT
+  version();
+```
 
+Without a semicolon, psql will not execute the command.
+
+---
+
+## Using pgAdmin 4
+
+pgAdmin 4 is the official graphical interface for PostgreSQL.
+
+It provides:
+
+* Visual database browser
+* Query editor
+* Table editor
+* Backup and restore tools
+
+### Starting pgAdmin
+
+#### Windows / macOS
+
+Search for "pgAdmin 4" in applications.
+
+When opening for the first time, you will be asked to create a master password.
+
+---
+
+### Connecting to a Server
+
+1. Open pgAdmin
+2. Expand "Servers"
+3. Right-click → Connect
+4. Enter your PostgreSQL password
+
+---
+
+### Running Queries in pgAdmin
+
+1. Expand: Servers → Databases → postgres
+2. Right-click → Query Tool
+3. Write SQL in the editor
+4. Click ▶ Execute
+
+Example:
+
+```sql
+SELECT version();
+```
+
+Results appear in the Data Output panel.
+
+---
+
+## Using DBeaver (Optional GUI Tool)
+
+DBeaver is a popular third-party database client that supports many databases.
+
+### Installing DBeaver
+
+Download from:
+[https://dbeaver.io](https://dbeaver.io)
+
+Install for your operating system.
+
+---
+
+### Connecting PostgreSQL in DBeaver
+
+1. Open DBeaver
+2. Click "New Connection"
+3. Select PostgreSQL
+4. Enter:
+
+   * Host: localhost
+   * Port: 5432
+   * Database: postgres
+   * Username: postgres
+   * Password
+5. Click Test Connection
+6. Finish
+
+You can now browse tables and run queries.
+
+---
+
+## Choosing Between psql, pgAdmin, and DBeaver
+
+| Tool    | Best For                     |
+| ------- | ---------------------------- |
+| psql    | Speed, automation, scripting |
+| pgAdmin | Official GUI, management     |
+| DBeaver | Multi-database projects      |
+
+For learning and production work, it is recommended to know at least psql and one GUI tool.
+
+---
+
+## Common Default Settings
+
+| Setting  | Default Value |
+| -------- | ------------- |
+| Host     | localhost     |
+| Port     | 5432          |
+| User     | postgres      |
+| Database | postgres      |
+
+You can change these later if needed.
+
+---
+
+## What’s Next?
+
+You have now learned:
+
+* What PostgreSQL is and where it comes from
+* How to install it on Windows, macOS, and Linux
+* How to connect using psql, pgAdmin, and DBeaver
+* How to run basic SQL commands
+
+In the next articles, you will learn how to:
+
+* Create databases and tables
+* Define data types and constraints
+* Insert and manage records
+* Optimize queries and performance
+
+With PostgreSQL installed and configured, you are now ready to build real-world, production-grade database systems.
