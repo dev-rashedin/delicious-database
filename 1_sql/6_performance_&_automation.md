@@ -1,6 +1,6 @@
-## SQL CREATE INDEX Statement
+# Delicious Database (Part 8): SQL for Developers - Performance & Automation
 
-Indexes improve query performance by allowing faster searches.  
+## Indexes improve query performance by allowing faster searches.  
 
 ### CREATE INDEX Statement (Allows duplicate values)
 

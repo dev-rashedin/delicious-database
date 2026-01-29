@@ -1,4 +1,4 @@
-# SQL Security Fundamentals
+# Delicious Database (Part 8): SQL for Developers - Security Fundamentals
 
 SQL security is crucial for any developer interacting with databases. Vulnerabilities in your application can allow attackers to read, modify, or delete sensitive data. The most common threat is **SQL injection**, where malicious input is sent to the database, potentially exposing all stored data.
 
