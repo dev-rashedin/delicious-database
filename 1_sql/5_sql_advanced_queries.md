@@ -12,7 +12,6 @@ You will learn how to:
 * Merge result sets using `UNION` and `UNION ALL`.
 * Use conditional logic with `CASE`.
 * Control query logic using `EXISTS`, `ANY`, and `ALL`.
-* Manage data safely using transactions.
 
 All examples are designed to be **portable across PostgreSQL, MySQL, and SQLite**, with differences clearly explained when necessary. By the end of this article, you will be able to write complex, high-performance queries and confidently work with relational data in production systems.
 
@@ -985,17 +984,24 @@ WHERE ProductID = ALL (
 ---
 
 
+## Wrapping Up Advanced SQL Queries
 
-## Topics Covered
+Congratulations! You have now explored **advanced SQL querying techniques** that go beyond basic CRUD operations:
 
-* `GROUP BY`
-* `HAVING`
-* Aggregate Queries with Grouping
-* Subqueries (Subselects)
-* JOINs (`INNER`, `LEFT`, `RIGHT`, `FULL`)
-* Self Joins
-* `UNION` and `UNION ALL`
-* `EXISTS`
-* `ANY` and `ALL`
-* Conditional Logic with `CASE`
-* Transactions (`BEGIN`, `COMMIT`, `ROLLBACK`)
+* You learned how to **group and filter data** with `GROUP BY` and `HAVING`.
+* You practiced **writing nested queries** with subqueries to perform dynamic data analysis.
+* You mastered **combining tables** using different types of `JOIN`s, including `INNER`, `LEFT`, `RIGHT`, `FULL`, and self joins.
+* You discovered how to **merge result sets** with `UNION` and `UNION ALL`.
+* You learned to **control query logic** with `EXISTS`, `ANY`, and `ALL`.
+
+With these skills, you can write queries that handle real-world datasets efficiently, uncover insights, and support complex application logic.
+
+Next steps could include:
+
+* Exploring **window functions** for running totals and rankings.
+* Learning **indexes, query optimization, and performance tuning**.
+* Diving into **transactions and data integrity** for production-ready applications.
+
+By combining these advanced techniques with the **foundational SQL knowledge** from earlier articles, you are now fully equipped to tackle almost any data challenge in PostgreSQL, MySQL, or SQLite.
+
+
