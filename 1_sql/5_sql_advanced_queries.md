@@ -25,7 +25,7 @@ The `GROUP BY` clause is used to **group rows that share the same values** in on
 
 It is mainly used together with **aggregate functions** such as:
 
-** `COUNT()`**, ** `SUM()`**, ** `AVG()`**, ** `MIN()`**, ** `MAX()`**
+`COUNT()`, `SUM()`, `AVG()`, `MIN()`, `MAX()`
 
 In simple terms:
 
@@ -161,9 +161,9 @@ GROUP BY CategoryID;
 
 When using `GROUP BY`:
 
-* Every column in `SELECT` must either:
- - Be inside an aggregate function, or
- - Appear in `GROUP BY`
+Every column in `SELECT` must either:
+  - Be inside an aggregate function, or
+  - Appear in `GROUP BY`
 
 ❌ Invalid:
 
@@ -525,7 +525,16 @@ JOIN table2
 ON table1.common_column = table2.common_column;
 ```
 
-Always use `ON` to specify how tables are related.
+> Always use `ON` to specify how tables are related.
+
+### Different Types of SQL JOINs
+
+Here are the different types of the JOINs in SQL:
+
+* (INNER) JOIN: Returns records that have matching values in both tables
+* LEFT (OUTER) JOIN: Returns all records from the left table, and the matched records from the right table
+* RIGHT (OUTER) JOIN: Returns all records from the right table, and the matched records from the left table
+* FULL (OUTER) JOIN: Returns all records when there is a match in either left or right table
 
 ---
 
@@ -610,6 +619,8 @@ You can join as many tables as needed.
 * Matching rows from the right table
 * `NULL` if no match exists
 
+> In some databases `LEFT JOIN` is called `LEFT OUTER JOIN`.
+
 ---
 
 ### Example: All Customers and Their Orders
@@ -648,6 +659,8 @@ ON condition;
 * All rows from the **right table**
 * Matching rows from the left table
 * `NULL` if no match exists
+
+>  In some databases `RIGHT JOIN` is called `RIGHT OUTER JOIN`.
 
 ---
 
@@ -703,6 +716,8 @@ ON Orders.EmployeeID = Employees.EmployeeID;
 * All rows from both tables
 * Matches where possible
 * `NULL` where no match exists
+
+> `FULL OUTER JOIN `and `FULL JOIN` are the same.
 
 ---
 
