@@ -538,7 +538,7 @@ Here are the different types of the JOINs in SQL:
 
 ---
 
-## `INNER JOIN`
+### `INNER JOIN`
 
 `INNER JOIN` returns only rows that exist in **both tables**.
 
@@ -611,7 +611,7 @@ You can join as many tables as needed.
 
 ---
 
-## `LEFT JOIN`
+### `LEFT JOIN`
 
 `LEFT JOIN` returns:
 
@@ -652,7 +652,7 @@ ON condition;
 
 ---
 
-## `RIGHT JOIN`
+### `RIGHT JOIN`
 
 `RIGHT JOIN` returns:
 
@@ -709,7 +709,7 @@ ON Orders.EmployeeID = Employees.EmployeeID;
 
 ---
 
-## `FULL OUTER JOIN`
+### `FULL OUTER JOIN`
 
 `FULL JOIN` returns:
 
@@ -774,7 +774,7 @@ ON Customers.CustomerID = Orders.CustomerID;
 
 ---
 
-## `SELF JOIN`
+### `SELF JOIN`
 
 A `SELF JOIN` joins a table with itself.
 
@@ -816,7 +816,7 @@ This finds customers living in the same city.
 
 ---
 
-## Summary of JOIN Types
+### Summary of JOIN Types
 
 | Join Type | Includes Non-Matching Rows | Use Case                  |
 | --------- | -------------------------- | ------------------------- |
@@ -828,7 +828,7 @@ This finds customers living in the same city.
 
 ---
 
-## Practical Guidelines
+### Practical Guidelines
 
 ### Use `INNER JOIN` when:
 
@@ -852,7 +852,7 @@ This finds customers living in the same city.
 
 ---
 
-## Best Practices
+### Best Practices
 
 ### Always Qualify Column Names
 
@@ -882,7 +882,7 @@ Improves clarity in complex queries.
 
 ---
 
-## Key Takeaways
+### Key Takeaways
 
 * `JOIN` connects related tables
 * `INNER JOIN` → matching only
@@ -892,6 +892,98 @@ Improves clarity in complex queries.
 * SQLite lacks `RIGHT` and `FULL` joins
 
 ---
+
+## Set Operations & Existence Checks: `UNION`, `UNION ALL`, `EXISTS`, `ANY`, `ALL`
+
+### Combining Result Sets with `UNION` and `UNION ALL`
+
+* **UNION** combines results of two or more `SELECT` statements and **removes duplicates**.
+* **UNION ALL** combines results and **keeps duplicates**.
+* All `SELECT` statements must have the **same number of columns**, in the **same order**, and with **compatible data types**.
+
+```sql
+-- UNION: Get distinct cities from Customers and Suppliers
+SELECT City FROM Customers
+UNION
+SELECT City FROM Suppliers
+ORDER BY City;
+
+-- UNION ALL: Get all cities including duplicates
+SELECT City FROM Customers
+UNION ALL
+SELECT City FROM Suppliers
+ORDER BY City;
+
+-- UNION with WHERE: Only German cities
+SELECT City, Country FROM Customers
+WHERE Country='Germany'
+UNION
+SELECT City, Country FROM Suppliers
+WHERE Country='Germany'
+ORDER BY City;
+```
+
+---
+
+### Checking Existence with `EXISTS`
+
+* `EXISTS` checks if a **subquery returns any records**.
+* Returns **TRUE** if at least one record exists.
+
+```sql
+-- List suppliers who have at least one product priced < 20
+SELECT SupplierName
+FROM Suppliers
+WHERE EXISTS (
+    SELECT ProductName
+    FROM Products
+    WHERE Products.SupplierID = Suppliers.SupplierID
+    AND Price < 20
+);
+
+-- List suppliers with a product priced exactly 22
+SELECT SupplierName
+FROM Suppliers
+WHERE EXISTS (
+    SELECT ProductName
+    FROM Products
+    WHERE Products.SupplierID = Suppliers.SupplierID
+    AND Price = 22
+);
+```
+
+---
+
+### Comparing Values with `ANY` and `ALL`
+
+* **ANY**: TRUE if **any** value in the subquery meets the condition.
+* **ALL**: TRUE if **all** values in the subquery meet the condition.
+* Commonly used with comparison operators (`=`, `>`, `<`, `>=`, `<=`, `<>`).
+
+```sql
+-- ANY: Find products if any order has Quantity = 10
+SELECT ProductName
+FROM Products
+WHERE ProductID = ANY (
+    SELECT ProductID
+    FROM OrderDetails
+    WHERE Quantity = 10
+);
+
+-- ALL: Find products only if all orders have Quantity = 10
+SELECT ProductName
+FROM Products
+WHERE ProductID = ALL (
+    SELECT ProductID
+    FROM OrderDetails
+    WHERE Quantity = 10
+);
+```
+
+> `ANY` is useful when you want to match **at least one value**, while `ALL` ensures **all values satisfy** a condition.
+
+---
+
 
 
 ## Topics Covered
