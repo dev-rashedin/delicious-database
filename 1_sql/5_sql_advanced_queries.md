@@ -259,7 +259,247 @@ Mexico  → COUNT = 5
 
 
 
+## Filtering Groups with `HAVING`
 
+The `HAVING` clause is used to **filter grouped results** created by `GROUP BY`.
 
+While `WHERE` filters **rows**,
+`HAVING` filters **groups**.
 
+In simple terms:
 
+> * `WHERE` → works **before grouping**
+> * `HAVING` → works **after grouping**
+
+You use `HAVING` when you want to apply conditions to **aggregate results** such as `COUNT()`, `SUM()`, or `AVG()`.
+
+---
+
+### Why Do We Need `HAVING`?
+
+Consider this question:
+
+> "Show only countries that have more than 5 customers."
+
+You cannot write:
+
+❌ Invalid:
+
+```sql
+SELECT Country, COUNT(*) AS TotalCustomers
+FROM Customers
+WHERE COUNT(*) > 5
+GROUP BY Country;
+```
+
+This fails because:
+
+* `WHERE` runs **before** `COUNT()` is calculated
+* Aggregate functions do not exist yet at that stage
+
+So SQL provides `HAVING` for this purpose.
+
+✅ Correct:
+
+```sql
+SELECT Country, COUNT(*) AS TotalCustomers
+FROM Customers
+GROUP BY Country
+HAVING COUNT(*) > 5;
+```
+
+---
+
+### Basic Syntax
+
+```sql
+-- Syntax
+
+SELECT column1, aggregate_function(column2)
+FROM table_name
+WHERE condition
+GROUP BY column1
+HAVING aggregate_condition
+ORDER BY column1;
+```
+
+---
+
+### Execution Order (Simplified)
+
+SQL processes grouped queries in this order:
+
+1. `FROM` → Select table
+2. `WHERE` → Filter rows
+3. `GROUP BY` → Create groups
+4. `HAVING` → Filter groups
+5. `SELECT` → Display result
+6. `ORDER BY` → Sort output
+
+This explains why `HAVING` can use aggregates but `WHERE` cannot.
+
+---
+
+### Example: Countries with More Than 5 Customers
+
+```sql
+-- Example: Show only countries with more than 5 customers
+
+SELECT Country, COUNT(*) AS TotalCustomers
+FROM Customers
+GROUP BY Country
+HAVING COUNT(*) > 5;
+```
+
+**What happens:**
+
+1. Rows are grouped by `Country`
+2. Customers are counted per country
+3. Only groups with count > 5 remain
+
+---
+
+### Using `HAVING` with `SUM()`
+
+```sql
+-- Example: Orders with total quantity above 100
+
+SELECT OrderID, SUM(Quantity) AS TotalQuantity
+FROM OrderDetails
+GROUP BY OrderID
+HAVING SUM(Quantity) > 100;
+```
+
+This returns only large orders.
+
+---
+
+### Using `HAVING` with `AVG()`
+
+```sql
+-- Example: Categories with average price above 50
+
+SELECT CategoryID, AVG(Price) AS AveragePrice
+FROM Products
+GROUP BY CategoryID
+HAVING AVG(Price) > 50;
+```
+
+Useful for performance and business analysis.
+
+---
+
+### Combining `WHERE` and `HAVING`
+
+You can use **both together**.
+
+* `WHERE` → filters rows first
+* `HAVING` → filters grouped results
+
+```sql
+-- Example: Countries in Europe with more than 3 customers
+
+SELECT Country, COUNT(*) AS TotalCustomers
+FROM Customers
+WHERE Country IN ('Germany', 'UK', 'France', 'Spain')
+GROUP BY Country
+HAVING COUNT(*) > 3;
+```
+
+Here:
+
+1. `WHERE` limits countries
+2. `GROUP BY` groups them
+3. `HAVING` filters groups
+
+---
+
+### Using Aliases in `HAVING`
+
+In PostgreSQL, MySQL, and SQLite, you can usually use column aliases in `HAVING`.
+
+```sql
+-- Example: Using alias in HAVING
+
+SELECT Country, COUNT(*) AS TotalCustomers
+FROM Customers
+GROUP BY Country
+HAVING TotalCustomers > 5;
+```
+
+> This works in modern versions of PostgreSQL, MySQL, and SQLite.
+
+---
+
+### Common Mistake: Using WHERE Instead of HAVING
+
+❌ Wrong:
+
+```sql
+SELECT Country, COUNT(*)
+FROM Customers
+WHERE COUNT(*) > 5
+GROUP BY Country;
+```
+
+✅ Correct:
+
+```sql
+SELECT Country, COUNT(*)
+FROM Customers
+GROUP BY Country
+HAVING COUNT(*) > 5;
+```
+
+---
+
+### When Should You Use HAVING?
+
+Use `HAVING` when:
+
+✅ You are using `GROUP BY`
+✅ You need to filter aggregated data
+✅ Your condition uses `COUNT`, `SUM`, `AVG`, `MIN`, or `MAX`
+
+Do NOT use `HAVING` when simple `WHERE` is enough.
+
+---
+
+### Common Use Cases
+
+| Question                  | Solution                     |
+| ------------------------- | ---------------------------- |
+| Countries with > 10 users | `HAVING COUNT(*) > 10`       |
+| Orders worth > $500       | `HAVING SUM(Price) > 500`    |
+| High-paying departments   | `HAVING AVG(Salary) > 60000` |
+| Busy customers            | `HAVING COUNT(OrderID) > 20` |
+
+---
+
+### Key Takeaways
+
+* `WHERE` filters rows
+* `HAVING` filters groups
+* `HAVING` works with aggregate functions
+* Used only with `GROUP BY`
+* Runs after grouping
+
+---
+
+### Mental Model
+
+Think like this:
+
+```
+Table
+↓ WHERE
+Filtered Rows
+↓ GROUP BY
+Groups
+↓ HAVING
+Filtered Groups
+↓ SELECT
+Final Result
+```
+
+---
