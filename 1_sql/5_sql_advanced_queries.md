@@ -25,19 +25,15 @@ The `GROUP BY` clause is used to **group rows that share the same values** in on
 
 It is mainly used together with **aggregate functions** such as:
 
-* `COUNT()`
-* `SUM()`
-* `AVG()`
-* `MIN()`
-* `MAX()`
+** `COUNT()`**, ** `SUM()`**, ** `AVG()`**, ** `MIN()`**, ** `MAX()`**
 
 In simple terms:
 
-> `GROUP BY` helps you answer questions like:
->
-> * How many users are in each country?
-> * What is the total sales per month?
-> * What is the average salary per department?
+`GROUP BY` helps you answer questions like:
+
+* How many users are in each country?
+* What is the total sales per month?
+* What is the average salary per department?
 
 ---
 
@@ -165,10 +161,9 @@ GROUP BY CategoryID;
 
 When using `GROUP BY`:
 
-> Every column in `SELECT` must either:
->
-> * Be inside an aggregate function, or
-> * Appear in `GROUP BY`
+* Every column in `SELECT` must either:
+ - Be inside an aggregate function, or
+ - Appear in `GROUP BY`
 
 ❌ Invalid:
 
@@ -268,8 +263,8 @@ While `WHERE` filters **rows**,
 
 In simple terms:
 
-> * `WHERE` → works **before grouping**
-> * `HAVING` → works **after grouping**
+* `WHERE` → works **before grouping**
+* `HAVING` → works **after grouping**
 
 You use `HAVING` when you want to apply conditions to **aggregate results** such as `COUNT()`, `SUM()`, or `AVG()`.
 
@@ -427,8 +422,6 @@ GROUP BY Country
 HAVING TotalCustomers > 5;
 ```
 
-> This works in modern versions of PostgreSQL, MySQL, and SQLite.
-
 ---
 
 ### Common Mistake: Using WHERE Instead of HAVING
@@ -457,11 +450,11 @@ HAVING COUNT(*) > 5;
 
 Use `HAVING` when:
 
-✅ You are using `GROUP BY`
-✅ You need to filter aggregated data
-✅ Your condition uses `COUNT`, `SUM`, `AVG`, `MIN`, or `MAX`
+* ✅ You are using `GROUP BY`
+* ✅ You need to filter aggregated data
+* ✅ Your condition uses `COUNT`, `SUM`, `AVG`, `MIN`, or `MAX`
 
-Do NOT use `HAVING` when simple `WHERE` is enough.
+> Do NOT use `HAVING` when simple `WHERE` is enough.
 
 ---
 
@@ -503,3 +496,18 @@ Final Result
 ```
 
 ---
+
+
+## Topics Covered
+
+* `GROUP BY`
+* `HAVING`
+* Aggregate Queries with Grouping
+* Subqueries (Subselects)
+* JOINs (`INNER`, `LEFT`, `RIGHT`, `FULL`)
+* Self Joins
+* `UNION` and `UNION ALL`
+* `EXISTS`
+* `ANY` and `ALL`
+* Conditional Logic with `CASE`
+* Transactions (`BEGIN`, `COMMIT`, `ROLLBACK`)
