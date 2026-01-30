@@ -165,18 +165,25 @@ Always confirm the active database before creating or deleting tables.
 
 ---
 
+```sql
 ### Check Database Information
 
 Before creating tables or running queries, it is often useful to know **which database you are connected to** and some basic info about it.
 
-```sql
 -- PostgreSQL: Show the current database name
 SELECT current_database();  -- Returns the name of the connected database
 
--- PostgreSQL: Show all databases
-\l                        -- Lists all databases (psql terminal shortcut)
--- or using SQL
-SELECT datname FROM pg_database;
+-- PostgreSQL: Show all tables in the public schema
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public';
+
+-- PostgreSQL (psql only): Show connection info
+\conninfo
+
+-- PostgreSQL (psql only): List all databases
+\l
+
 
 -- MySQL: Show the current database name
 SELECT DATABASE();         -- Returns the name of the connected database
@@ -184,12 +191,27 @@ SELECT DATABASE();         -- Returns the name of the connected database
 -- MySQL: Show all databases
 SHOW DATABASES;
 
+-- MySQL: Show all tables in the current database
+SHOW TABLES;
+
+
 -- SQLite: Show the filename of the current database
 PRAGMA database_list;      -- Returns file path and name of attached databases
 
--- SQLite: List all tables in the current database
-.tables                    -- Terminal shortcut to list all tables
+-- SQLite (terminal): List all tables
+.tables
+
+-- SQLite: Show table structure
+.schema persons
+
+-- SQLite: List all tables (SQL way)
+SELECT name
+FROM sqlite_master
+WHERE type = 'table';
 ```
+
+---
+
 
 ## Create Table
 
@@ -333,24 +355,31 @@ Choosing good data types improves:
 
 ---
 
-## Common SQL Data Types (RDBMS-Agnostic)
+### Common SQL Data Types (RDBMS-Agnostic)
 
 These work similarly in PostgreSQL, MySQL, and SQLite.
 
-| Data Type     | What It Stores     | Beginner Explanation     | Typical Use   | Example                                 |
-| ------------- | ------------------ | ------------------------ | ------------- | --------------------------------------- |
-| INT / INTEGER | Whole numbers      | No decimal part          | IDs, counters | 42                                      |
-| BIGINT        | Very large numbers | For billions+            | Large systems | 9000000000                              |
-| DECIMAL(p,s)  | Exact decimals     | p = digits, s = decimals | Money         | 99.99                                   |
-| VARCHAR(n)    | Limited text       | Max n characters         | Emails        | [alice@mail.com](mailto:alice@mail.com) |
-| TEXT          | Long text          | No fixed limit           | Articles      | Long message                            |
-| DATE          | Date only          | Year-month-day           | Birthdate     | 1999-08-15                              |
-| TIMESTAMP     | Date + time        | Includes time            | Logs          | 2026-01-24 14:30                        |
-| BOOLEAN       | True/False         | Logical value            | Flags         | TRUE                                    |
+| Data Type     | What It Stores        | Beginner Explanation           | Typical Use          | Example                                 |
+| ------------- | --------------------- | ------------------------------ | -------------------- | --------------------------------------- |
+| INT / INTEGER | Whole numbers         | No decimal part                | IDs, counters        | 42                                      |
+| BIGINT        | Very large numbers    | For billions+                  | Large systems        | 9000000000                              |
+| DECIMAL(p,s)  | Exact decimals        | p = digits, s = decimals       | Money, ratings       | 99.99                                   |
+| FLOAT         | Approximate decimals | Not always perfectly accurate | Scientific data      | 3.14159                                 |
+| VARCHAR(n)    | Limited text          | Max n characters               | Emails               | [alice@mail.com](mailto:alice@mail.com) |
+| TEXT          | Long text             | No fixed limit                 | Articles             | Long message                            |
+| DATE          | Date only             | Year-month-day                 | Birthdate            | 1999-08-15                              |
+| TIMESTAMP     | Date + time           | Includes time                  | Logs                 | 2026-01-24 14:30                        |
+| BOOLEAN       | True/False            | Logical value                  | Flags                | TRUE                                    |
 
 ---
 
-## Auto-Increment / Identity Columns
+### Note: FLOAT vs DECIMAL
+
+- `DECIMAL` stores numbers **exactly**, so it is safe for money and financial data.
+- `FLOAT` stores numbers **approximately**, so small rounding errors can happen.
+
+
+### Auto-Increment / Identity Columns
 
 Used for automatically generated IDs.
 
@@ -362,7 +391,7 @@ Used for automatically generated IDs.
 
 ---
 
-## Timestamp and Time Zone Handling
+### Timestamp and Time Zone Handling
 
 | Database   | Type           | Behavior        | Example          |
 | ---------- | -------------- | --------------- | ---------------- |
@@ -374,7 +403,7 @@ Used for automatically generated IDs.
 
 ---
 
-## Boolean Storage Differences
+### Boolean Storage Differences
 
 | Database   | Declared Type | Stored As  | Example |
 | ---------- | ------------- | ---------- | ------- |
@@ -384,7 +413,7 @@ Used for automatically generated IDs.
 
 ---
 
-## VARCHAR Length Enforcement
+### VARCHAR Length Enforcement
 
 | Database   | Enforced | Explanation       |
 | ---------- | -------- | ----------------- |
@@ -394,7 +423,7 @@ Used for automatically generated IDs.
 
 ---
 
-## Best Practices
+### Best Practices
 
 * Always back up before schema changes
 * Use meaningful table and column names
