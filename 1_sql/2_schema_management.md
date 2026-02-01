@@ -161,18 +161,8 @@ USE dbname;
 .open dbname.db
 ```
 
-Always confirm the active database before creating or deleting tables.
-
----
-
+### Show Current Database's Content
 ```sql
-### Check Database Information
-
-Before creating tables or running queries, it is often useful to know **which database you are connected to** and some basic info about it.
-
--- PostgreSQL: Show the current database name
-SELECT current_database();  -- Returns the name of the connected database
-
 -- PostgreSQL: Show all tables in the public schema
 SELECT table_name
 FROM information_schema.tables
@@ -181,15 +171,6 @@ WHERE table_schema = 'public';
 -- PostgreSQL (psql only): Show connection info
 \conninfo
 
--- PostgreSQL (psql only): List all databases
-\l
-
-
--- MySQL: Show the current database name
-SELECT DATABASE();         -- Returns the name of the connected database
-
--- MySQL: Show all databases
-SHOW DATABASES;
 
 -- MySQL: Show all tables in the current database
 SHOW TABLES;
