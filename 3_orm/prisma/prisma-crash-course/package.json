@@ -7,20 +7,25 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch --env-file=.env src/server.ts",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
   },
   "keywords": [],
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^7.3.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "express-error-toolkit": "^1.2.1",
-    "http-status-toolkit": "^2.0.0"
+    "http-status-toolkit": "^2.0.0",
+    "prisma": "^7.3.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.2.1",
+    "dotenv": "^17.2.3",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.2"

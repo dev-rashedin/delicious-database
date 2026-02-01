@@ -1,0 +1,13 @@
+{
+  "servestVersion": "1.0.0",
+  "framework": "express",
+  "language": "ts",
+  "architecture": "basic",
+  "srcDir": true,
+  "environment": {
+    "runtime": "node",
+    "nodeVersion": "v24.12.0"
+  },
+  "features": {},
+  "createdAt": "2026-02-01T15:10:30.874Z"
+}
