@@ -381,3 +381,62 @@ const prisma = new PrismaClient();
 
 ---
 
+## Best Practices When Using Prisma
+
+### 1. Always Use Migrations
+
+Do not edit databases manually in production.
+
+### 2. Reuse Prisma Client
+
+Create a single instance to avoid memory leaks.
+
+### 3. Use Transactions for Critical Operations
+
+```ts
+await prisma.$transaction([
+  prisma.user.create(...),
+  prisma.profile.create(...)
+]);
+```
+
+### 4. Optimize Queries
+
+Use `select` and `include` wisely.
+
+### 5. Handle Errors Properly
+
+Wrap queries in try/catch blocks.
+
+---
+
+## Prisma vs Other ORMs (Quick Comparison)
+
+| Feature     | Prisma   | Sequelize | TypeORM |
+| ----------- | -------- | --------- | ------- |
+| Type Safety | Yes      | Limited   | Partial |
+| Migrations  | Built-in | Partial   | Yes     |
+| Learning    | Easy     | Medium    | Hard    |
+| Performance | Good     | Medium    | Medium  |
+
+---
+
+## Summary
+
+Prisma is a powerful, modern ORM designed for JavaScript and TypeScript developers. It focuses on:
+
+* Type safety
+* Productivity
+* Maintainability
+* Developer experience
+
+It is best suited for:
+
+* API development
+* SaaS products
+* Full-stack apps
+* Rapid prototyping
+
+However, for highly specialized database workloads, raw SQL may still be necessary.
+
+When used correctly, Prisma can greatly improve your backend development workflow and help you build reliable, scalable applications faster.
