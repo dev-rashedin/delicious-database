@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { notFoundHandler, globalErrorHandler } from 'express-error-toolkit';
 import { StatusCodes } from 'http-status-toolkit';
+import userRouter from './module/user-route';
 
 const app = express();
 
@@ -13,9 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 
-app.get("/users", async (_, res) => {
-  
-})
+app.use('/', userRouter)
 
 
 
