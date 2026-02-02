@@ -10,6 +10,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+// routes
+
+app.get("/users", async (_, res) => {
+  
+})
+
+
+
 // home route
 app.get('/', (_req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({
@@ -17,6 +26,8 @@ app.get('/', (_req: Request, res: Response) => {
     message: 'Server is running',
   });
 });
+
+
 
 // not found handler and global error handler
 app.use(notFoundHandler);

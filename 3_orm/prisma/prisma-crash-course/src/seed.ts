@@ -1,10 +1,37 @@
-import { PrismaClient, Prisma } from './generated/prisma/client'
-import { PrismaPg } from '@prisma/adapter-pg'
-
-const pool = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
-const prisma = new PrismaClient({ adapter: pool })
+import prisma from './utils/prisma-client'
 
 
-async function seed () {
+async function main () {
+  console.log('start seeding')
   
+  await prisma.user.createMany({
+    data : [
+      {
+        name: "Harry",
+        email: "harry@hogwarts",
+      },
+      {
+        name: "Hermione",
+        email: "hermione@hogwarts",
+      },
+      {
+        name: "Ron",
+        email: "ron@hogwarts",
+      },
+      {
+        name: "Draco",
+        email: "draco@hogwarts",
+      }
+    ]
+  })
 }
+
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error('error while seeding', e);
+    await prisma.$disconnect()
+    process.exit(1)
+  })
