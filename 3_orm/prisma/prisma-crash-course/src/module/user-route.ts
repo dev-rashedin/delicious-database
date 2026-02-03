@@ -10,6 +10,46 @@ const userRouter = express.Router();
 userRouter.get("/users", asyncHandler(async (_req: Request, res: Response) => {
  const users = await prisma.user.findMany()
 
+ if(!users.length) {
+    res.status(StatusCodes.NOT_FOUND).json({
+     success: false,
+     message: "No users found",
+     data: []
+   })
+ }
+
+ res.status(StatusCodes.OK).json({
+   success: true,
+   message: "Users fetched successfully !!!",
+   data: users
+ })
+}))
+
+// get married user
+userRouter.get("/married-users", asyncHandler(async (_req: Request, res: Response) => {
+ const users = await prisma.user.findMany({
+   where: {
+     OR : [
+       {
+         isMarried: true
+       },
+       {
+        age: {
+          gte: 18
+        }
+       }
+     ]
+   }
+ })
+
+ if(!users.length) {
+    res.status(StatusCodes.NOT_FOUND).json({
+     success: false,
+     message: "No married users found",
+     data: []
+   })
+ }
+
  res.status(StatusCodes.OK).json({
    success: true,
    message: "Users fetched successfully",
@@ -17,20 +57,7 @@ userRouter.get("/users", asyncHandler(async (_req: Request, res: Response) => {
  })
 }))
 
-// get user by id
-userRouter.get("/user/:id", asyncHandler(async (_req: Request, res: Response) => {
- const user = await prisma.user.findUnique({
-   where: {
-     id: 4
-   }
- })
 
- res.status(StatusCodes.OK).json({
-   success: true,
-   message: "User fetched successfully",
-   data: user
- })
-}))
 
 
 export default userRouter
