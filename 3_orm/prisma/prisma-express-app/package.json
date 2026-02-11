@@ -1,5 +1,5 @@
 {
-  "name": "prisma-crash-course",
+  "name": "prisma-express-app",
   "version": "1.0.0",
   "main": "dist/server.js",
   "author": "",
