@@ -13,16 +13,21 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.2.4",
+    "drizzle-orm": "^0.45.1",
     "express": "^5.1.0",
     "express-error-toolkit": "^1.2.1",
-    "http-status-toolkit": "^2.0.0"
+    "http-status-toolkit": "^2.0.0",
+    "pg": "^8.18.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.2.1",
+    "@types/pg": "^8.16.0",
+    "drizzle-kit": "^0.31.9",
     "ts-node": "^10.9.2",
-    "tsx": "^4.20.6",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.2"
   }
 }
