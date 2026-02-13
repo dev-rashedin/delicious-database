@@ -1,6 +1,6 @@
-import {integer, pgTable, uuid, serial} from "drizzle-orm/pg-core"
+import { pgTable, uuid, varchar} from "drizzle-orm/pg-core"
 
 export const userTable = pgTable("users", {
-   id: uuid("id").primaryKey().defaultRandom(),
-   id2: serial("id2").primaryKey(),
+   id: uuid().primaryKey().defaultRandom(),
+   name: varchar({length: 255}).notNull(),
 })

@@ -1,3 +1,3 @@
 # Guide to Drizzle
 
-## Beginner Friendly Complete Drizzle Guide
+## Complete Beginner Friendly Drizzle Guide
