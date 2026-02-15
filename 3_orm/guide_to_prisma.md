@@ -1,4 +1,4 @@
-# A Beginner’s Guide to Prisma ORM
+# A Beginner Friendly Guide to Prisma ORM
 
 ## What Is Prisma?
 
