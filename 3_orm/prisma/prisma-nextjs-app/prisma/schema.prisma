@@ -7,8 +7,12 @@ datasource db {
   provider = "postgresql"
 }
 
-model test_users {
-  id    Int     @id @default(autoincrement())
-  name  String? @db.VarChar(50)
-  email String? @db.VarChar(50)
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  created_at  DateTime @default(now())
+  age         Int
+  isMarried   Boolean
+  nationality String
 }
